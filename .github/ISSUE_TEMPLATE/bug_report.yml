@@ -149,8 +149,6 @@ body:
       description: Name the target processor architecture if you chose "Other".
     validations:
       required: false
-    validations:
-      required: true
   - type: input
     id: device-system-linux-distro
     attributes:
