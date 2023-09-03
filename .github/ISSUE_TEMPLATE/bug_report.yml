@@ -59,13 +59,13 @@ body:
     id: where-bug-applies
     attributes:
       label: Where did you see the bug?
-      #description: The bug must be present in the core webview library and not in e.g. language bindings or underlying browser engines.
+      description: |
+        * The bug must be present in the core webview library and not in e.g. language bindings or underlying browser engines.
+        * The bug may have been fixed already—please test the latest unreleased code (master/main branch).
       options:
-        - label: In the core library.
-          description: The bug must be present in the core webview library and not in e.g. language bindings or underlying browser engines.
+        - label: Core library.
           required: true
-        - label: In the latest unreleased code.
-          description: The bug may have been fixed already—please test the latest unreleased code (master/main branch).
+        - label: Latest unreleased code.
           required: true
   - type: input
     id: affected-versions
