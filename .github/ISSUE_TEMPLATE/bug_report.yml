@@ -46,28 +46,25 @@ body:
         - label: The bug is present in the latest unreleased code.
           required: true
   - type: dropdown
-    id: affected-platforms
+    id: affected-platform
     attributes:
-      label: Affected platforms
-      description: Tick one or more affected platforms.
-      multiple: true
+      label: Platform
+      description: Select your platform.
+      multiple: false
       options:
+        - BSD
         - Linux
         - macOS
         - Windows
+        - Other
     validations:
       required: true
   - type: input
-    id: device-system-info-unix
+    id: affected-os
     attributes:
-      label: 'Unix: System information'
-      description: Paste the output of `uname -a`.
-    validations:
-      required: false
-  - type: input
-    id: device-system-info-windows
-    attributes:
-      label: 'Windows: System information'
-      description: Paste the output of `(Get-CimInstance Win32_OperatingSystem).Version` (PowerShell).
+      label: 'Affected operating system'
+      description: |
+        Unix: Paste the output of `uname -a`.
+        Windows: Paste the output of `(Get-CimInstance Win32_OperatingSystem).Version` (PowerShell).
     validations:
       required: false
