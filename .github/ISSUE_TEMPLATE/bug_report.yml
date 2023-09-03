@@ -8,6 +8,18 @@ body:
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
+  - type: checkboxes
+    id: where-bug-applies
+    attributes:
+      label: Where did you see the bug?
+      description: |
+        * The bug must be present in the core webview library and not in e.g. language bindings or underlying browser engines.
+        * The bug may have been fixed already—please test the latest unreleased code (master/main branch).
+      options:
+        - label: Core library.
+          required: true
+        - label: Latest unreleased code.
+          required: true
   - type: textarea
     id: description
     attributes:
@@ -55,18 +67,6 @@ body:
       description: If you have an external code sample (C/C++) for reproducing the bug then please provide the URL.
     validations:
       required: false
-  - type: checkboxes
-    id: where-bug-applies
-    attributes:
-      label: Where did you see the bug?
-      description: |
-        * The bug must be present in the core webview library and not in e.g. language bindings or underlying browser engines.
-        * The bug may have been fixed already—please test the latest unreleased code (master/main branch).
-      options:
-        - label: Core library.
-          required: true
-        - label: Latest unreleased code.
-          required: true
   - type: input
     id: affected-versions
     attributes:
