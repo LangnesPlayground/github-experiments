@@ -49,7 +49,6 @@ body:
     attributes:
       label: Affected platforms
       description: Tick one or more affected platforms.
-      multiple: true
       options:
         - Linux
         - macOS
