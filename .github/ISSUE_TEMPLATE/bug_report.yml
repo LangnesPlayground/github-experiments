@@ -40,23 +40,21 @@ body:
   - type: checkboxes
     id: applies-to-unreleased-code
     attributes:
-      label: Bug applies to latest unreleased code
+      label: Is the latest unreleased code affected?
       description: The bug may have been fixed already—please test the latest unreleased code (master/main branch).
       options:
         - label: The bug is present in the latest unreleased code.
           required: true
-  - type: checkboxes
+  - type: dropdown
     id: affected-platforms
     attributes:
       label: Affected platforms
       description: Tick one or more affected platforms.
+      multiple: true
       options:
-        - label: Linux
-          required: false
-        - label: macOS
-          required: false
-        - label: Windows
-          required: false
+        - Linux
+        - macOS
+        - Windows
     validations:
       required: true
   - type: input
