@@ -1,0 +1,72 @@
+name: Bug Report
+description: File a bug report
+title: '[Bug]: '
+labels: ['bug', 'triage']
+#projects: ['octo-org/1', 'octo-org/44']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What happened?
+      description: Describe the bug in a clear and concise manner.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: What did you expected to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can we reproduce the bug?
+      description: Describe the steps to reproduce the bug.
+    validations:
+      required: true
+    id: affected-version
+    attributes:
+      label: Affected version
+      description: The released version that is affected by the bug if any.
+      placeholder: x.y.z
+    validations:
+      required: false
+  - type: checkboxes
+    id: applies-to-unreleased-code
+    attributes:
+      label: Bug applies to latest unreleased code
+      description: The bug may have been fixed already—please test the latest unreleased code (master/main branch).
+      options:
+        - label: The bug is present in the latest unreleased code.
+          required: true
+  - type: checkboxes
+    id: affected-platforms
+    attributes:
+      label: Affected platforms
+      description: Tick one or more affected platforms.
+      multiple: true
+      options:
+        - Linux
+        - macOS
+        - Windows
+    validations:
+      required: true
+  - type: input
+    id: device-system-info-unix
+    attributes:
+      label: 'Unix: System information'
+      description: Paste the output of `uname -a`.
+    validations:
+      required: false
+  - type: input
+    id: device-system-info-windows
+    attributes:
+      label: 'Windows: System information'
+      description: Paste the output of `(Get-CimInstance Win32_OperatingSystem).Version` (PowerShell).
+    validations:
+      required: false
