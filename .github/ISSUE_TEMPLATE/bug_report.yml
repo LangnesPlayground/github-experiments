@@ -66,8 +66,8 @@ body:
       description: |
         Paste the output of the command(s) according to the table below.
 
-        |:OS              |:Shell      |:Command
-        | --              | -----      | -------
+        | OS              | Shell      | Command
+        |:--              |:-----      |:-------
         | Debian-based    | Any        | `lsb_release -sd`
         | Other Unix-like | Any        | `uname -a`
         | Windows         | PowerShell | `(Get-CimInstance Win32_OperatingSystem).Version`
