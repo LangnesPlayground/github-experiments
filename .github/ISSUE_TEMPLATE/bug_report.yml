@@ -64,7 +64,8 @@ body:
     attributes:
       label: 'Affected operating system'
       description: |
-        Unix: Paste the output of `uname -a`.
-        Windows: Paste the output of `(Get-CimInstance Win32_OperatingSystem).Version` (PowerShell).
+        * Debian-based: Paste the output of `lsb_release -sd`.
+        * Other Unix-like: Paste the output of `uname -a`.
+        * Windows: Paste the output of `(Get-CimInstance Win32_OperatingSystem).Version` (PowerShell).
     validations:
       required: false
