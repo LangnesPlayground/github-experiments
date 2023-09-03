@@ -37,10 +37,10 @@ body:
     validations:
       required: true
   - type: textarea
-    id: code-sample-url
+    id: code-sample
     attributes:
       label: Code sample
-      description: If you have a short code sample for reproducing the bug then please provide it.
+      description: If you have a short code sample (C/C++) for reproducing the bug then please provide it.
       render: cpp
     validations:
       required: false
