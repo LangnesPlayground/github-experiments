@@ -142,6 +142,8 @@ body:
         - ARM32 (AArch32)
         - ARM64 (AArch64)
         - Other
+    validations:
+      required: true
   - type: input
     id: target-architecture-other
     attributes:
