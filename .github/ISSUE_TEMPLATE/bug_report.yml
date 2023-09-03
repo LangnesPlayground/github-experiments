@@ -52,16 +52,16 @@ body:
     id: code-sample-url
     attributes:
       label: External code sample
-      description: If you have an external code sample for reproducing the bug then please provide the URL.
+      description: If you have an external code sample (C/C++) for reproducing the bug then please provide the URL.
     validations:
       required: false
   - type: checkboxes
     id: applies-to-core
     attributes:
-      label: Does the bug apply to the core webview library?
+      label: Is the bug present in the core webview library?
       description: The bug must be in the core library and not in e.g. language bindings.
       options:
-        - label: The bug is present in the core library.
+        - label: I believe so
           required: true
   - type: input
     id: affected-versions
