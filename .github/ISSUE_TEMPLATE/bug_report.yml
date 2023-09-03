@@ -79,7 +79,7 @@ body:
     id: device-platform
     attributes:
       label: Device platform
-      description: Select your platform.
+      description: Select the platform running on your device.
       multiple: false
       options:
         - BSD
@@ -93,7 +93,7 @@ body:
     id: device-architecture
     attributes:
       label: Device architecture
-      description: Select the your processor architecture.
+      description: Select your device's processor architecture.
       options:
         - Intel x86 (i686)
         - AMD64 (x86_64)
