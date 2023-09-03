@@ -46,7 +46,7 @@ body:
         - label: The bug is present in the latest unreleased code.
           required: true
   - type: dropdown
-    id: affected-platform
+    id: device-platform
     attributes:
       label: Platform
       description: Select your platform.
@@ -56,6 +56,47 @@ body:
         - Linux
         - macOS
         - Windows
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: device-architecture
+    attributes:
+      label: Architecture
+      description: Select the your processor architecture.
+      options:
+        - Intel x86 (i686)
+        - AMD64 (x86_64)
+        - ARM32 (AArch32)
+        - ARM64 (AArch64)
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: target-platform
+    attributes:
+      label: Target platform
+      description: Select the target platform.
+      multiple: false
+      options:
+        - BSD
+        - Linux
+        - macOS
+        - Windows
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: target-architecture
+    attributes:
+      label: Target architecture
+      description: Select the target architecture.
+      options:
+        - Same as device
+        - Intel x86 (i686)
+        - AMD64 (x86_64)
+        - ARM32 (AArch32)
+        - ARM64 (AArch64)
         - Other
     validations:
       required: true
