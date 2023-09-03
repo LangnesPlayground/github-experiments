@@ -60,17 +60,17 @@ body:
     validations:
       required: true
   - type: input
-    id: device-system-unix-distro
+    id: device-system-linux-distro
     attributes:
-      label: 'Unix: Distribution-specific information'
-      description: Paste the output of `lsb_release -sa` if applicable.
+      label: 'Linux: Distribution-specific information'
+      description: Paste the output of `lsb_release -sd` if applicable.
   - type: input
     id: device-system-unix-info
     attributes:
       label: 'Unix: System information'
-      description: Paste the output of `uname -a`.
+      description: Paste the output of `uname -a` if applicable.
   - type: input
     id: device-system-windows
     attributes:
       label: 'Windows: System information'
-      description: Paste the output of `(Get-CimInstance Win32_OperatingSystem).Version` (PowerShell).
+      description: Paste the output of `(Get-CimInstance Win32_OperatingSystem).Version` (PowerShell) if applicable.
