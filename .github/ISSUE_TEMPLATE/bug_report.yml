@@ -29,6 +29,7 @@ body:
       description: Describe the steps to reproduce the bug.
     validations:
       required: true
+  - type: input
     id: affected-version
     attributes:
       label: Affected version
