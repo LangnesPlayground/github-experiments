@@ -34,6 +34,10 @@ body:
     attributes:
       label: How can we reproduce the bug?
       description: Describe the steps to reproduce the bug.
+      value: |
+        1. Step
+        2. Step
+        3. Step
     validations:
       required: true
   - type: textarea
