@@ -75,24 +75,10 @@ body:
       placeholder: x.y.z
     validations:
       required: false
-  - type: input
-    id: binding-language
-    attributes:
-      label: 'Binding: Language'
-      description: Name of language if you're using a language binding.
-    validations:
-      required: false
-  - type: input
-    id: binding-url
-    attributes:
-      label: 'Binding: Language'
-      description: URL of language binding if applicable.
-    validations:
-      required: false
   - type: dropdown
     id: device-platform
     attributes:
-      label: Platform
+      label: Device platform
       description: Select your platform.
       multiple: false
       options:
@@ -106,7 +92,7 @@ body:
   - type: dropdown
     id: device-architecture
     attributes:
-      label: Architecture
+      label: Device architecture
       description: Select the your processor architecture.
       options:
         - Intel x86 (i686)
@@ -123,6 +109,7 @@ body:
       description: Select the target platform.
       multiple: false
       options:
+        - Same as device
         - BSD
         - Linux
         - macOS
