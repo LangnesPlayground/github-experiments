@@ -50,9 +50,12 @@ body:
       label: Affected platforms
       description: Tick one or more affected platforms.
       options:
-        - Linux
-        - macOS
-        - Windows
+        - label: Linux
+          required: false
+        - label: macOS
+          required: false
+        - label: Windows
+          required: false
     validations:
       required: true
   - type: input
