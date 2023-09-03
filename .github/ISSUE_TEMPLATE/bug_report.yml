@@ -13,7 +13,7 @@ body:
     attributes:
       label: Where did you see the bug?
       description: |
-        * The bug must be present in the core webview library and not in e.g. language bindings or underlying browser engines.
+        * The bug must be present in the core webview library and not caused by faults in language bindings.
         * The bug may have been fixed already—please test the latest unreleased code (master/main branch).
       options:
         - label: Core library.
