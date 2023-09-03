@@ -9,9 +9,9 @@ body:
       value: |
         Thanks for taking the time to fill out this bug report!
   - type: textarea
-    id: behavior
+    id: description
     attributes:
-      label: What happened?
+      label: Description
       description: Describe the bug in a clear and concise manner.
     validations:
       required: true
@@ -19,21 +19,51 @@ body:
     id: expected-behavior
     attributes:
       label: Expected behavior
-      description: What did you expected to happen?
+      description: Describe what you expected to happen.
     validations:
       required: true
   - type: textarea
-    id: reproduce
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      description: Describe what happened instead of the above.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
     attributes:
       label: How can we reproduce the bug?
       description: Describe the steps to reproduce the bug.
     validations:
       required: true
-  - type: input
-    id: affected-version
+  - type: textarea
+    id: code-sample-url
     attributes:
-      label: Affected version
-      description: The released version that is affected by the bug if any.
+      label: Code sample
+      description: If you have a short code sample for reproducing the bug then please provide it.
+      render: cpp
+    validations:
+      required: false
+  - type: input
+    id: code-sample-url
+    attributes:
+      label: External code sample
+      description: If you have an external code sample for reproducing the bug then please provide the URL.
+    validations:
+      required: false
+  - type: checkboxes
+    id: applies-to-core
+    attributes:
+      label: Does the bug apply to the core webview library?
+      description: The bug must be in the core library and not in e.g. language bindings.
+      options:
+        - label: The bug is present in the core library.
+          required: true
+  - type: input
+    id: affected-versions
+    attributes:
+      label: Affected versions
+      description: The released version(s) affected by the bug if any. Separate each affected version by a comma and space.
       placeholder: x.y.z
     validations:
       required: false
@@ -45,6 +75,20 @@ body:
       options:
         - label: The bug is present in the latest unreleased code.
           required: true
+  - type: input
+    id: binding-language
+    attributes:
+      label: 'Binding: Language'
+      description: Name of language if you're using a language binding.
+    validations:
+      required: false
+  - type: input
+    id: binding-url
+    attributes:
+      label: 'Binding: Language'
+      description: URL of language binding if applicable.
+    validations:
+      required: false
   - type: dropdown
     id: device-platform
     attributes:
