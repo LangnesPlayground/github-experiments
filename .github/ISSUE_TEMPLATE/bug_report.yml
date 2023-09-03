@@ -56,12 +56,16 @@ body:
     validations:
       required: false
   - type: checkboxes
-    id: applies-to-core
+    id: where-bug-applies
     attributes:
-      label: Is the bug present in the core webview library?
-      description: The bug must be in the core library and not in e.g. language bindings.
+      label: Where did you see the bug?
+      #description: The bug must be present in the core webview library and not in e.g. language bindings or underlying browser engines.
       options:
-        - label: I believe so
+        - label: In the core library.
+          description: The bug must be present in the core webview library and not in e.g. language bindings or underlying browser engines.
+          required: true
+        - label: In the latest unreleased code.
+          description: The bug may have been fixed already—please test the latest unreleased code (master/main branch).
           required: true
   - type: input
     id: affected-versions
