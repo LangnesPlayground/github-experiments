@@ -16,9 +16,9 @@ body:
         * The bug must be present in the core webview library and not caused by faults in language bindings.
         * The bug may have been fixed already—please test the latest unreleased code (master/main branch).
       options:
-        - label: Core library.
+        - label: Saw the bug in the core webview library.
           required: true
-        - label: Latest unreleased code.
+        - label: Saw the bug in the latest unreleased code.
           required: true
   - type: textarea
     id: description
