@@ -89,6 +89,13 @@ body:
         - Other
     validations:
       required: true
+  - type: input
+    id: device-platform-other
+    attributes:
+      label: Other device platform
+      description: Name the platform running on your device if you chose "Other".
+    validations:
+      required: false
   - type: dropdown
     id: device-architecture
     attributes:
@@ -102,6 +109,13 @@ body:
         - Other
     validations:
       required: true
+  - type: input
+    id: device-architecture-other
+    attributes:
+      label: Other device architecture
+      description: Name your device's processor architecture if you chose "Other".
+    validations:
+      required: false
   - type: dropdown
     id: target-platform
     attributes:
@@ -117,6 +131,13 @@ body:
         - Other
     validations:
       required: true
+  - type: input
+    id: target-platform-other
+    attributes:
+      label: Other target platform
+      description: Name the target platform if you chose "Other".
+    validations:
+      required: false
   - type: dropdown
     id: target-architecture
     attributes:
@@ -129,6 +150,13 @@ body:
         - ARM32 (AArch32)
         - ARM64 (AArch64)
         - Other
+  - type: input
+    id: target-architecture-other
+    attributes:
+      label: Other target architecture
+      description: Name the target processor architecture if you chose "Other".
+    validations:
+      required: false
     validations:
       required: true
   - type: input
