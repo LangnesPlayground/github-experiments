@@ -67,14 +67,6 @@ body:
       description: If you have an external code sample (C/C++) for reproducing the bug then please provide the URL.
     validations:
       required: false
-  - type: input
-    id: affected-versions
-    attributes:
-      label: Affected versions
-      description: The released version(s) affected by the bug if any. Separate each affected version by a comma and space.
-      placeholder: x.y.z
-    validations:
-      required: false
   - type: dropdown
     id: device-platform
     attributes:
