@@ -11,7 +11,7 @@ body:
         Please check the following first:
 
         * The bug must be present in the core webview library and not caused by faults in language bindings.
-        * The bug may have been fixed already—please test the latest unreleased code (`master`/`main` branch).
+        * The bug may have been fixed already—please test a newer version or the latest unreleased code (`master`/`main` branch).
   - type: textarea
     id: description
     attributes:
