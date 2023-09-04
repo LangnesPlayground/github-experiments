@@ -60,29 +60,22 @@ body:
     validations:
       required: false
   - type: input
-    id: device-system-linux-distro
+    id: system
     attributes:
-      label: 'Linux: Distribution-specific information'
-      description: Paste the output of `lsb_release -sd` if applicable.
-  - type: input
-    id: device-system-unix-info
-    attributes:
-      label: 'Unix: System information'
-      description: Paste the output of `uname -srvmo` if applicable.
-  - type: input
-    id: system-version-windows
-    attributes:
-      label: 'Windows: System version'
+      label: 'System information'
       description: |
-        Operating system version. Paste the output of the following snippet (PowerShell) if applicable:
-        ```ps
-        (Get-CimInstance Win32_OperatingSystem).Version
+        Paste the output of the following commands depending on your system.
+        Linux:
+        ```sh
+        echo "$((lsb_release -sd 2>/dev/null || echo Unknown) | tr -d '\n') ($(uname -m))"
         ```
-    id: system-arch-windows
-    attributes:
-      label: 'Windows: System architecture'
-      description: |
-        Operating system architecture. Paste the output of the following snippet (PowerShell) if applicable:
+        macOS:
+        ```sh
+        uname -srvmo
+        ```
+        Windows (PowerShell):
         ```ps
-        if ($a = $env:PROCESSOR_ARCHITEW6432) { $a } else { $env:PROCESSOR_ARCHITECTURE }
+        $os = Get-CimInstance Win32_OperatingSystem;
+        if (-not ($a = $env:PROCESSOR_ARCHITEW6432)) { $a = $env:PROCESSOR_ARCHITECTURE };
+        "$($os.Caption) $($os.Version) ($a)"
         ```
