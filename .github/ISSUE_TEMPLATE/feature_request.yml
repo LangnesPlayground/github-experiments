@@ -12,6 +12,16 @@ body:
 
         * The feature request must be rooted in the core webview library and not only in specific language bindings.
         * The feature may have been requested already—please search first.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
+      options:
+        - label: I agree to follow this project's Code of Conduct.
+          required: true
+        - label: I have checked for duplicate features requests.
+          required: true
   - type: textarea
     id: problem
     attributes:

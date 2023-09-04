@@ -16,7 +16,7 @@ body:
     id: description
     attributes:
       label: Description
-      description: Describe the bug in a clear and concise manner.
+      description: Describe the bug in a clear and concise manner. Provide more context such as screenshots 
     validations:
       required: true
   - type: textarea
