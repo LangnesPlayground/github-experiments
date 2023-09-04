@@ -60,46 +60,6 @@ body:
     validations:
       required: false
   - type: dropdown
-    id: device-platform
-    attributes:
-      label: Device platform
-      description: Select the platform running on your device.
-      multiple: false
-      options:
-        - Unspecified
-        - BSD
-        - Linux
-        - macOS
-        - Windows
-        - Other
-    validations:
-      required: true
-  - type: input
-    id: device-platform-other
-    attributes:
-      label: Other device platform
-      description: Name the platform running on your device if you chose "Other".
-    validations:
-      required: false
-  - type: dropdown
-    id: device-architecture
-    attributes:
-      label: Device architecture
-      description: Select your device's processor architecture.
-      options:
-        - AMD64 (x86_64)
-        - ARM64 (AArch64)
-        - Other
-    validations:
-      required: true
-  - type: input
-    id: device-architecture-other
-    attributes:
-      label: Other device architecture
-      description: Name your device's processor architecture if you chose "Other".
-    validations:
-      required: false
-  - type: dropdown
     id: target-platform
     attributes:
       label: Target platform
@@ -130,6 +90,9 @@ body:
         - Same as device
         - AMD64 (x86_64)
         - ARM64 (AArch64)
+        - -
+        - Intel x86
+        - ARM32 (AArch32)
         - Other
     validations:
       required: true
