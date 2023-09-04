@@ -9,10 +9,7 @@ body:
       value: |
         Thank you for taking the time to fill out this bug report!
         <div>a</div>
-        <div>b</div>
-        <style>
-          background: red;
-        </style>
+        <div style="background: red">b</div>
   - type: checkboxes
     id: where-bug-applies
     attributes:
