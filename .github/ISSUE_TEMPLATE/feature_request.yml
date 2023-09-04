@@ -1,6 +1,5 @@
 name: Feature request
 description: Suggest an idea for this project
-title: ''
 labels: ['enhancement', 'triage']
 #projects: ['octo-org/1', 'octo-org/44']
 body:
