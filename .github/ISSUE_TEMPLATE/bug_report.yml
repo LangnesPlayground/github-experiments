@@ -65,6 +65,7 @@ body:
       label: 'System information'
       description: |
         Paste the output of the following commands depending on your system.
+
         Linux:
         ```sh
         echo "$((lsb_release -sd 2>/dev/null || echo Unknown) | tr -d '\n') ($(uname -m))"
