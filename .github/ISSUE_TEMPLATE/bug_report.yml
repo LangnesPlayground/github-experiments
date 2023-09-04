@@ -5,19 +5,13 @@ labels: ['bug', 'triage']
 body:
   - type: markdown
     attributes:
-      value: Thank you for taking the time to fill out this bug report!
-  - type: checkboxes
-    id: where-bug-applies
-    attributes:
-      label: Where did you see the bug?
-      description: |
+      value: |
+        Thank you for taking the time to fill out this bug report!
+
+        Please check the following first:
+
         * The bug must be present in the core webview library and not caused by faults in language bindings.
         * The bug may have been fixed already—please test the latest unreleased code (master/main branch).
-      options:
-        - label: Saw the bug in the core webview library.
-          required: true
-        - label: Saw the bug in the latest unreleased code.
-          required: true
   - type: textarea
     id: description
     attributes:

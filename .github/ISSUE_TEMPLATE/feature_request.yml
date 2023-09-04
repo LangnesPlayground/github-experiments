@@ -5,19 +5,13 @@ labels: ['enhancement', 'triage']
 body:
   - type: markdown
     attributes:
-      value: Thank you for taking the time to fill out this feature request!
-  - type: checkboxes
-    id: preconditions
-    attributes:
-      label: Please check the following
-      description: |
+      value: |
+        Thank you for taking the time to fill out this feature request!
+
+        Please check the following first:
+
         * The feature request must be rooted in the core webview library and not only in specific language bindings.
         * The feature may have been requested already—please search first.
-      options:
-        - label: Request is for the core webview library.
-          required: true
-        - label: Couldn't find an existing feature request.
-          required: true
   - type: textarea
     id: problem
     attributes:
@@ -35,7 +29,7 @@ body:
   - type: textarea
     id: alternatives
     attributes:
-      label: Alternatives
+      label: Alternative solutions
       description: Which alternative solutions or features have you considered, if any?
     validations:
       required: false
@@ -47,9 +41,9 @@ body:
       multiple: false
       options:
         - Unspecified
-        - WebKit/Cocoa (macOS)
-        - WebKit2GTK/GTK3 (Linux and Unix-like)
-        - WebView2/Win32 (Windows)
+        - WebKit/Cocoa
+        - WebKit2GTK/GTK3
+        - WebView2/Win32
         - Other
     validations:
       required: true
