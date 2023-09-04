@@ -65,7 +65,7 @@ body:
       label: Environment
       description: |
         Describe your system's environment such as the operating system and C/C++ compiler.
-        See convenient commands below.
+        Feel free to use the commands below for your convenience to extract information.
 
         Linux and other Unix-like environments except macOS:
         ```sh
@@ -86,8 +86,8 @@ body:
         "GCC: $(if (Get-Command gcc -CommandType Application -ErrorAction SilentlyContinue) { &gcc -dumpfullversion } else { "N/A" })"
         "Clang: $(if (Get-Command clang -CommandType Application -ErrorAction SilentlyContinue) { &clang -dumpfullversion } else { "N/A" })"
         ```
-      value: |
-        OS: Ubuntu 22.04.3 LTS (x86_64)
+      placeholder: |
+        OS: [Ubuntu 22.04.3 LTS (x86_64)]
         GCC: 12.3.0
         Clang: 14.0.0
     validations:
