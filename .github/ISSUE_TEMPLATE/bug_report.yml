@@ -76,7 +76,7 @@ body:
 
         macOS:
         ```sh
-        echo "OS: $(uname -srvmo)"
+        echo "OS: $(sw_vers -productName) $(sw_vers -productVersion) ($(uname -m))"
         echo "Clang: $(clang -dumpversion 2>/dev/null || echo N/A)"
         ```
 
@@ -87,8 +87,8 @@ body:
         "Clang: $(if (Get-Command clang -CommandType Application -ErrorAction SilentlyContinue) { &clang -dumpfullversion } else { "N/A" })"
         ```
       value: |
-        OS: *Ubuntu 22.04.3 LTS (x86_64)*
-        GCC: *12.3.0*
-        Clang: *14.0.0*
+        OS: Ubuntu 22.04.3 LTS (x86_64)
+        GCC: 12.3.0
+        Clang: 14.0.0
     validations:
       required: true
