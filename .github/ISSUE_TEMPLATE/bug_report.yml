@@ -59,28 +59,6 @@ body:
       description: If you have an external code sample (C/C++) for reproducing the bug then please provide the URL.
     validations:
       required: false
-  - type: dropdown
-    id: target-platform
-    attributes:
-      label: Target platform
-      description: Select the target platform.
-      multiple: false
-      options:
-        - Same as device
-        - BSD
-        - Linux
-        - macOS
-        - Windows
-        - Other
-    validations:
-      required: true
-  - type: input
-    id: target-platform-other
-    attributes:
-      label: Other target platform
-      description: Name the target platform if you chose "Other".
-    validations:
-      required: false
   - type: input
     id: device-system-linux-distro
     attributes:
