@@ -59,6 +59,25 @@ body:
       description: If you have an external code sample (C/C++) for reproducing the bug then please provide the URL.
     validations:
       required: false
+  - type: textarea
+    id: compiler
+    attributes:
+      label: 'C/C++ compiler'
+      description: |
+        Paste the output of the following commands.
+
+        Unix-like environments:
+        ```sh
+        for c in gcc clang; do echo "$c: $($c -dumpfullversion 2>/dev/null || echo N/A)"; done
+        ```
+
+        Windows:
+        ```ps
+        ("gcc", "clang") | %{ "$($_): $(if (Get-Command $_ -CommandType Application -ErrorAction SilentlyContinue) { &$_ -dumpfullversion } else { "N/A" })" }
+        ```
+      render: code
+    validations:
+      required: true
   - type: input
     id: system
     attributes:
@@ -78,27 +97,7 @@ body:
 
         Windows (PowerShell):
         ```ps
-        $os = Get-CimInstance Win32_OperatingSystem;
-        if (-not ($a = $env:PROCESSOR_ARCHITEW6432)) { $a = $env:PROCESSOR_ARCHITECTURE };
-        "$($os.Caption) $($os.Version) ($a)"
-        ```
-    validations:
-      required: true
-  - type: textarea
-    id: compiler
-    attributes:
-      label: 'C/C++ compiler'
-      description: |
-        Paste the output of the following commands.
-
-        Unix-like environments:
-        ```sh
-        for c in gcc clang; do echo "$c: $($c -dumpfullversion 2>/dev/null || echo N/A)"; done
-        ```
-
-        Windows:
-        ```ps
-        ("gcc", "clang") | %{ "$($_): $(if (Get-Command $_ -CommandType Application -ErrorAction SilentlyContinue) { &$_ -dumpfullversion } else { "N/A" })" }
+        $os = Get-CimInstance Win32_OperatingSystem; if (-not ($a = $env:PROCESSOR_ARCHITEW6432)) { $a = $env:PROCESSOR_ARCHITECTURE }; "$($os.Caption) $($os.Version) ($a)"
         ```
     validations:
       required: true
