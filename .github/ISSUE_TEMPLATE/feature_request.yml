@@ -36,7 +36,7 @@ body:
     id: alternatives
     attributes:
       label: Alternatives
-      description: Which alternative solutions or features have you considered?
+      description: Which alternative solutions or features have you considered, if any?
     validations:
       required: false
   - type: dropdown
