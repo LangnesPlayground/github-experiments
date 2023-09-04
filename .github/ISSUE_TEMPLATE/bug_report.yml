@@ -6,8 +6,7 @@ labels: ['bug', 'triage']
 body:
   - type: markdown
     attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
+      value: Thank you for taking the time to fill out this bug report!
   - type: checkboxes
     id: where-bug-applies
     attributes:
