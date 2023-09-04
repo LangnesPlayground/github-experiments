@@ -66,6 +66,7 @@ body:
       description: Select the platform running on your device.
       multiple: false
       options:
+        - Unspecified
         - BSD
         - Linux
         - macOS
