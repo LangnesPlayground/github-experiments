@@ -81,28 +81,6 @@ body:
       description: Name the target platform if you chose "Other".
     validations:
       required: false
-  - type: dropdown
-    id: target-architecture
-    attributes:
-      label: Target architecture
-      description: Select the target architecture.
-      options:
-        - Same as device
-        - AMD64 (x86_64)
-        - ARM64 (AArch64)
-        - -
-        - Intel x86
-        - ARM32 (AArch32)
-        - Other
-    validations:
-      required: true
-  - type: input
-    id: target-architecture-other
-    attributes:
-      label: Other target architecture
-      description: Name the target processor architecture if you chose "Other".
-    validations:
-      required: false
   - type: input
     id: device-system-linux-distro
     attributes:
@@ -112,9 +90,21 @@ body:
     id: device-system-unix-info
     attributes:
       label: 'Unix: System information'
-      description: Paste the output of `uname -a` if applicable.
+      description: Paste the output of `uname -srvmo` if applicable.
   - type: input
-    id: device-system-windows
+    id: system-version-windows
     attributes:
-      label: 'Windows: System information'
-      description: Paste the output of `(Get-CimInstance Win32_OperatingSystem).Version` (PowerShell) if applicable.
+      label: 'Windows: System version'
+      description: |
+        Operating system version. Paste the output of the following snippet (PowerShell) if applicable:
+        ```ps
+        (Get-CimInstance Win32_OperatingSystem).Version
+        ```
+    id: system-arch-windows
+    attributes:
+      label: 'Windows: System architecture'
+      description: |
+        Operating system architecture. Paste the output of the following snippet (PowerShell) if applicable:
+        ```ps
+        if ($a = $env:PROCESSOR_ARCHITEW6432) { $a } else { $env:PROCESSOR_ARCHITECTURE }
+        ```
