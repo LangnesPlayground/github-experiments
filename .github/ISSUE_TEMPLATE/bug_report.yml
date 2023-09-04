@@ -87,9 +87,7 @@ body:
       label: Device architecture
       description: Select your device's processor architecture.
       options:
-        - Intel x86 (i686)
         - AMD64 (x86_64)
-        - ARM32 (AArch32)
         - ARM64 (AArch64)
         - Other
     validations:
@@ -130,9 +128,7 @@ body:
       description: Select the target architecture.
       options:
         - Same as device
-        - Intel x86 (i686)
         - AMD64 (x86_64)
-        - ARM32 (AArch32)
         - ARM64 (AArch64)
         - Other
     validations:
