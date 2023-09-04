@@ -1,0 +1,68 @@
+name: Feature request
+description: Suggest an idea for this project
+title: ''
+labels: ['enhancement', 'triage']
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for taking the time to fill out this feature request!
+  - type: checkboxes
+    id: preconditions
+    attributes:
+      label: Please check the following
+      description: |
+        * The feature request must be rooted in the core webview library and not only in specific language bindings.
+        * The feature may have been requested already—please search first.
+      options:
+        - label: Request is for the core webview library.
+          required: true
+        - label: Couldn't find an existing feature request.
+          required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Help us understand the problem that would be solved by implementing the requested feature.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Desired solution
+      description: How would you like the problem to be solved?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Which alternative solutions or features have you considered?
+    validations:
+      required: false
+  - type: dropdown
+    id: desired-backend
+    attributes:
+      label: Desired backend
+      description: Select your desired webview backend. Features must normally be cross-platform but we may prioritize your desired backend.
+      multiple: false
+      options:
+        - WebKit2GTK (Linux and Unix-like)
+        - WebKit (macOS)
+        - WebView2 (Windows)
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: desired-backend-other
+    attributes:
+      label: Other desired backend
+      description: Name the underlying browser engine if you chose "Other".
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any additional context about the feature request.
+    validations:
+      required: true
