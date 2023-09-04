@@ -40,23 +40,23 @@ body:
     validations:
       required: false
   - type: dropdown
-    id: desired-backend
+    id: backend
     attributes:
-      label: Desired backend
-      description: Select your desired webview backend. Features must normally be cross-platform but we may prioritize your desired backend.
+      label: Backend
+      description: Select the applicable backend. We may prioritize your backend.
       multiple: false
       options:
-        - WebKit2GTK (Linux and Unix-like)
-        - WebKit (macOS)
-        - WebView2 (Windows)
+        - WebKit/Cocoa (macOS)
+        - WebKit2GTK/GTK3 (Linux and Unix-like)
+        - WebView2/Win32 (Windows)
         - Other
     validations:
       required: true
   - type: input
-    id: desired-backend-other
+    id: backend-other
     attributes:
-      label: Other desired backend
-      description: Name the underlying browser engine if you chose "Other".
+      label: Other backend
+      description: Name the backend if you chose "Other".
     validations:
       required: false
   - type: textarea
