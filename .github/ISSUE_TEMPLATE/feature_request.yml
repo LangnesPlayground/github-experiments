@@ -46,6 +46,7 @@ body:
       description: Select the applicable backend. We may prioritize your backend.
       multiple: false
       options:
+        - Unspecified
         - WebKit/Cocoa (macOS)
         - WebKit2GTK/GTK3 (Linux and Unix-like)
         - WebView2/Win32 (Windows)
