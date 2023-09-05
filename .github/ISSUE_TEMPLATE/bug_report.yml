@@ -93,10 +93,9 @@ body:
         | %{ $_ }
         ```
       placeholder: |
-        OS: Microsoft Windows 10 Pro 10.0.19045 (AMD64)
-        GCC: gcc.exe (Rev7, Built by MSYS2 project) 13.1.0
-        Clang: N/A
-        WebView2 Runtime: 116.0.1938.69
+        OS: Ubuntu 22.04.3 LTS (x86_64)
+        GCC: gcc (Ubuntu 12.3.0-1ubuntu1~22.04) 12.3.0
+        Clang: Ubuntu clang version 14.0.0-1ubuntu1.1
     validations:
       required: true
   - type: textarea
