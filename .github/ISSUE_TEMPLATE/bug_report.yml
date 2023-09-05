@@ -8,7 +8,7 @@ body:
       value: |
         Thank you for taking the time to fill out this bug report!
 
-        Please check the following first:
+        ### Before you fill out this form...
 
         * The bug must be present in the core webview library and not caused by faults in language bindings.
         * The bug may have been fixed already—please test a newer version or the latest unreleased code (`master`/`main` branch).
