@@ -57,9 +57,7 @@ body:
       value: |
         ### Checklist
 
-        <form>
-          <fieldset>
-            <div><label><input type="checkbox" /> The feature request is rooted in the core webview library.</label</div>
-            <div><label><input type="checkbox" /> I checked and couldn't find an existing feature request.</label</div>
-          </fieldset>
-        </form>
+        <div>
+          <div><label><input type="checkbox" /> The feature request is rooted in the core webview library.</label</div>
+          <div><label><input type="checkbox" /> I checked and couldn't find an existing feature request.</label</div>
+        </div>
