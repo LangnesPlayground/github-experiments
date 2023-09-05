@@ -13,12 +13,19 @@ body:
         * The feature request must be rooted in the core webview library and not only in specific language bindings.
         * The feature may have been requested already—please search first.
   - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Provide a clear and concise description of the feature.
+    validations:
+      required: true
+  - type: textarea
     id: problem
     attributes:
       label: Problem
-      description: Help us understand the problem that would be solved by implementing the requested feature.
+      description: Help us understand any problems that would be solved by implementing the requested feature.
     validations:
-      required: true
+      required: false
   - type: textarea
     id: solution
     attributes:
@@ -30,7 +37,7 @@ body:
     id: backend
     attributes:
       label: Backend
-      description: Select a backend for which you would like to see the feature implemented. Features should be cross-platform but we may prioritize your selected backend.
+      description: Select a backend for which you would like to see the feature implemented. We may prioritize your selected backend.
       multiple: false
       options:
         - WebKit/Cocoa
