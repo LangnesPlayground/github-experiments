@@ -31,7 +31,9 @@ body:
       label: Description
       description: Provide a clear and concise description of the bug, the expected behavior and what happens instead.
       placeholder: |
-        Example: When the system-wide DPI setting changes e.g. from 100% to 125% while the app is running, I expected the window to scale accordingly but the size of the window remains at 100% while only the text scales to 125%. Please see the attached screenshots.
+        Example: Changing the display DPI scaling while my app is running makes the window grow in size regardless of what the scaling is set to.
+
+        For example, changing the scaling from 200% to 100% doesn't scale down the window, it scales it up!
     validations:
       required: true
   - type: textarea
