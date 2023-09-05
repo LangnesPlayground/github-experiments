@@ -26,13 +26,6 @@ body:
       description: If you have a solution in mind already, we'll take your suggestion into consideration.
     validations:
       required: false
-  - type: textarea
-    id: alternatives
-    attributes:
-      label: Alternative solutions
-      description: Which alternative solutions or features have you considered, if any?
-    validations:
-      required: false
   - type: dropdown
     id: backend
     attributes:
