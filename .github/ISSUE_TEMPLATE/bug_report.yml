@@ -66,8 +66,7 @@ body:
     attributes:
       label: Environment
       description: |
-        Describe your system's environment such as the operating system and C/C++ compiler.
-        Feel free to copy-paste the commands below to extract useful information.
+        Describe your system's environment such as the operating system and C/C++ compiler. Feel free to copy-paste the commands below to extract useful information.
 
         Unix-like:
         ```
