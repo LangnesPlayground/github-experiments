@@ -20,17 +20,17 @@ body:
     validations:
       required: true
   - type: textarea
-    id: expected-behavior
+    id: behavior
     attributes:
-      label: Expected behavior
-      description: Describe what you expected to happen.
+      label: What happened?
+      description: Describe the behavior you're seeing.
     validations:
       required: true
   - type: textarea
-    id: actual-behavior
+    id: expected-behavior
     attributes:
-      label: Actual behavior
-      description: Describe what happened instead of the above.
+      label: Expected behavior
+      description: Describe the behavior you expected to see.
     validations:
       required: true
   - type: textarea
