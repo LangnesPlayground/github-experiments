@@ -12,25 +12,28 @@ body:
 
         * The bug must be present in the core webview library and not caused by faults in language bindings.
         * The bug may have been fixed already—please test a newer version or the latest unreleased code (`master`/`main` branch).
+  - type: dropdown
+    id: backend
+    attributes:
+      label: Backend
+      description: Which backend does the bug apply to?
+      multiple: false
+      options:
+        - WebKit/Cocoa
+        - WebKit2GTK/GTK3
+        - WebView2/Win32
+      default: 2
+    validations:
+      required: false
   - type: textarea
     id: description
     attributes:
       label: Description
-      description: Provide a clear and concise description of the bug.
-    validations:
-      required: true
-  - type: textarea
-    id: behavior
-    attributes:
-      label: Behavior
-      description: Describe the behavior you're seeing.
-    validations:
-      required: true
-  - type: textarea
-    id: expected-behavior
-    attributes:
-      label: Expected behavior
-      description: Describe the behavior you expected to see.
+      description: Provide a clear and concise description of the bug, the expected behavior and what happens instead.
+      placeholder: |
+        Wrong scaling of window created by the `webview` class when the system-wide DPI setting changes after the window was created.
+
+        With a window already created, I expected it to automatically scale up when the DPI setting changed from 100% to 125%, but instead the size of the window remained at 100% with text scaling up.
     validations:
       required: true
   - type: textarea
@@ -65,31 +68,35 @@ body:
       label: Environment
       description: |
         Describe your system's environment such as the operating system and C/C++ compiler.
-        Feel free to use the commands below for your convenience to extract information.
+        Feel free to copy-paste the commands below to extract useful information.
 
-        Linux and other Unix-like environments except macOS:
+        Linux:
         ```sh
         echo "OS: $((lsb_release -sd 2>/dev/null || echo Unknown) | tr -d '\n') ($(uname -m))"
-        echo "GCC: $(gcc -dumpfullversion 2>/dev/null || echo N/A)"
-        echo "Clang: $(clang -dumpversion 2>/dev/null || echo N/A)"
+        echo "GCC: $((gcc --version 2>/dev/null || echo N/A) | head -n1)"
+        echo "Clang: $((clang --version 2>/dev/null || echo N/A) | head -n1)"
         ```
 
         macOS:
         ```sh
         echo "OS: $(sw_vers -productName) $(sw_vers -productVersion) ($(uname -m))"
-        echo "Clang: $(clang -dumpversion 2>/dev/null || echo N/A)"
+        echo "GCC: $((gcc --version 2>/dev/null || echo N/A) | head -n1)"
+        echo "Clang: $((clang --version 2>/dev/null || echo N/A) | head -n1)"
         ```
 
         Windows (PowerShell):
         ```ps
-        "OS: $($os = Get-CimInstance Win32_OperatingSystem; if (-not ($a = $env:PROCESSOR_ARCHITEW6432)) { $a = $env:PROCESSOR_ARCHITECTURE }; "$($os.Caption) $($os.Version) ($a)")"
-        "GCC: $(if (Get-Command gcc -CommandType Application -ErrorAction SilentlyContinue) { &gcc -dumpfullversion } else { "N/A" })"
-        "Clang: $(if (Get-Command clang -CommandType Application -ErrorAction SilentlyContinue) { &clang -dumpfullversion } else { "N/A" })"
+        "OS: $($os = Get-CimInstance Win32_OperatingSystem; if (-not ($a = $env:PROCESSOR_ARCHITEW6432)) { $a = $env:PROCESSOR_ARCHITECTURE }; "$($os.Caption) $($os.Version) ($a)")",
+        "GCC: $(if (Get-Command gcc -CommandType Application -ErrorAction SilentlyContinue) { &gcc --version | select -First 1 } else { "N/A" })",
+        "Clang: $(if (Get-Command clang -CommandType Application -ErrorAction SilentlyContinue) { &clang --version | select -First 1 } else { "N/A" })",
+        "WebView2 Runtime: $((Get-ItemProperty -Path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\$(if ([Environment]::Is64BitOperatingSystem) { "WOW6432Node\" } else {})Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}").pv)" `
+        | %{ $_ }
         ```
       placeholder: |
-        OS: Ubuntu 22.04.3 LTS (x86_64)
-        GCC: 12.3.0
-        Clang: 14.0.0
+        OS: Microsoft Windows 10 Pro 10.0.19045 (AMD64)
+        GCC: gcc.exe (Rev7, Built by MSYS2 project) 13.1.0
+        Clang: N/A
+        WebView2 Runtime: 116.0.1938.69
     validations:
       required: true
   - type: textarea
