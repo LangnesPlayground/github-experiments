@@ -71,7 +71,7 @@ body:
 
         Unix-like:
         ```sh
-        echo "OS: $(((if command -v sw_vers &> /dev/null; then echo " $(sw_vers -productName) $(sw_vers -productVersion)"; else lsb_release -sd 2>/dev/null; fi) || echo Unknown) | tr -d '\n') ($(uname -m))"
+        echo "OS: $(( (if command -v sw_vers &> /dev/null; then echo "$(sw_vers -productName) $(sw_vers -productVersion)"; else lsb_release -sd 2>/dev/null; fi) || echo Unknown) | tr -d '\n') ($(uname -m))"
         echo "GCC: $((gcc --version 2>/dev/null || echo N/A) | head -n1)"
         echo "Clang: $((clang --version 2>/dev/null || echo N/A) | head -n1)"
         ```
