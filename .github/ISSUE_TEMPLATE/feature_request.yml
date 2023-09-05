@@ -23,17 +23,14 @@ body:
     id: solution
     attributes:
       label: Desired solution
-      description: If you have a solution in mind already, we'll take your suggestion into consideration.
+      description: If you have any solutions in mind already, we'll take your suggestions into consideration.
     validations:
       required: false
   - type: dropdown
     id: backend
     attributes:
       label: Backend
-      description: |
-        Select a backend for which you would like to see the feature implemented.
-
-        Features should be cross-platform but we may prioritize your selected backend.
+      description: Select a backend for which you would like to see the feature implemented. Features should be cross-platform but we may prioritize your selected backend.
       multiple: false
       options:
         - WebKit/Cocoa
