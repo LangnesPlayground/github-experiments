@@ -52,3 +52,10 @@ body:
       description: Add any additional context about the feature request such as screenshots.
     validations:
       required: false
+  - type: markdown
+    attributes:
+      value: |
+        ### Checklist
+
+        - [ ] The feature request is rooted in the core webview library.
+        - [ ] I checked and couldn't find an existing feature request.
