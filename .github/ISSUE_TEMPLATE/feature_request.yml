@@ -23,7 +23,7 @@ body:
     id: solution
     attributes:
       label: Desired solution
-      description: If you have a solution in mind already, we'll take it into consideration.
+      description: If you have a solution in mind already, we'll take your suggestion into consideration.
     validations:
       required: false
   - type: textarea
