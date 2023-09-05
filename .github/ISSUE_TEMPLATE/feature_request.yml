@@ -23,9 +23,9 @@ body:
     id: solution
     attributes:
       label: Desired solution
-      description: How would you like the problem to be solved?
+      description: If you have a solution in mind already, we'll take it into consideration.
     validations:
-      required: true
+      required: false
   - type: textarea
     id: alternatives
     attributes:
