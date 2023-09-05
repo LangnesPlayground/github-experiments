@@ -1,4 +1,4 @@
-name: Add bugs to bugs project
+name: Add issue to project
 
 on:
   issues:
@@ -12,5 +12,13 @@ jobs:
     steps:
       - uses: actions/add-to-project@v0.5.0
         with:
+          project-url: https://github.com/orgs/SteffenL/projects/1
+          github-token: ${{ secrets.PROJECTS_WORKFLOW_PAT }}
           labeled: bug, needs-triage
-          label-operator: OR
+          label-operator: AND
+      - uses: actions/add-to-project@v0.5.0
+        with:
+          project-url: https://github.com/orgs/SteffenL/projects/2
+          github-token: ${{ secrets.PROJECTS_WORKFLOW_PAT }}
+          labeled: enhancement, needs-triage
+          label-operator: AND
