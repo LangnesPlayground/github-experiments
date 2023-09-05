@@ -31,9 +31,7 @@ body:
       label: Description
       description: Provide a clear and concise description of the bug, the expected behavior and what happens instead.
       placeholder: |
-        Example: Wrong scaling of window created by the `webview` class when the system-wide DPI setting changes after the window was created.
-
-        With a window already created, I expected it to automatically scale up when the DPI setting changed from 100% to 125%, but instead the size of the window remained at 100% with text scaling up.
+        Example: When the system-wide DPI setting changes e.g. from 100% to 125% while the app is running, I expected the window to scale accordingly but the size of the window remains at 100% while only the text scales to 125%.
     validations:
       required: true
   - type: textarea
