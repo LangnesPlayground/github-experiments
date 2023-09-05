@@ -8,7 +8,7 @@ body:
       value: |
         Thank you for taking the time to fill out this feature request!
 
-        Please check the following first:
+        ## Please check the following first:
 
         * The feature request must be rooted in the core webview library and not only in specific language bindings.
         * The feature may have been requested already—please search first.
