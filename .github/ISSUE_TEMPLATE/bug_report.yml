@@ -16,7 +16,7 @@ body:
     id: backend
     attributes:
       label: Backend
-      description: Which backend does the bug apply to?
+      description: With which backend did you see the bug?
       multiple: false
       options:
         - WebKit/Cocoa
