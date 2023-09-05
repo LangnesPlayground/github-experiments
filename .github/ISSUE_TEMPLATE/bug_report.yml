@@ -69,16 +69,9 @@ body:
         Describe your system's environment such as the operating system and C/C++ compiler.
         Feel free to copy-paste the commands below to extract useful information.
 
-        Linux:
+        Unix-like:
         ```sh
-        echo "OS: $((lsb_release -sd 2>/dev/null || echo Unknown) | tr -d '\n') ($(uname -m))"
-        echo "GCC: $((gcc --version 2>/dev/null || echo N/A) | head -n1)"
-        echo "Clang: $((clang --version 2>/dev/null || echo N/A) | head -n1)"
-        ```
-
-        macOS:
-        ```sh
-        echo "OS: $(sw_vers -productName) $(sw_vers -productVersion) ($(uname -m))"
+        echo "OS: $(((if command -v sw_vers &> /dev/null; then echo " $(sw_vers -productName) $(sw_vers -productVersion)"; else lsb_release -sd 2>/dev/null; fi) || echo Unknown) | tr -d '\n') ($(uname -m))"
         echo "GCC: $((gcc --version 2>/dev/null || echo N/A) | head -n1)"
         echo "Clang: $((clang --version 2>/dev/null || echo N/A) | head -n1)"
         ```
