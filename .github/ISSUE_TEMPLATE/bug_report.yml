@@ -32,7 +32,7 @@ body:
       description: Provide a clear and concise description of the bug, the expected behavior and what happens instead.
       placeholder: >
         Example: Changing the display DPI scaling while my app is running makes the window grow in size regardless of what the scaling is set to.
-        For example, changing the scaling from 200% to 100% doesn't scale down the window, it scales it up!
+        I would expect that changing the scaling from 200% to 100% would scale down the window, but instead it scales up!
     validations:
       required: true
   - type: textarea
