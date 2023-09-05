@@ -80,7 +80,7 @@ body:
         "OS: $($os = Get-CimInstance Win32_OperatingSystem; if (-not ($a = $env:PROCESSOR_ARCHITEW6432)) { $a = $env:PROCESSOR_ARCHITECTURE }; "$($os.Caption) $($os.Version) ($a)")",
         "GCC: $(if (Get-Command gcc -CommandType Application -ErrorAction SilentlyContinue) { &gcc --version | select -First 1 } else { "N/A" })",
         "Clang: $(if (Get-Command clang -CommandType Application -ErrorAction SilentlyContinue) { &clang --version | select -First 1 } else { "N/A" })",
-        "WebView2 Runtime: $(if ($p = Get-ItemProperty -Path "HKLM:\SOFTWARE\$(if ([Environment]::Is64BitOperatingSystem) { "WOW6432Node\" } else {})Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}" -ErrorAction SilentlyContinue) { $p.pv } else { "N/A" })"
+        "WebView2 Runtime: $(if ($p = Get-ItemProperty -Path "HKLM:\SOFTWARE\$(if ([Environment]::Is64BitOperatingSystem) { "WOW6432Node\" } else {})Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}" -ErrorAction SilentlyContinue) { $p.pv } else { "N/A" })" `
         | %{ $_ }
         ```
       placeholder: |
