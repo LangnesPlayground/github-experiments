@@ -31,7 +31,7 @@ body:
       label: Description
       description: Provide a clear and concise description of the bug, the expected behavior and what happens instead.
       placeholder: |
-        Wrong scaling of window created by the `webview` class when the system-wide DPI setting changes after the window was created.
+        Example: Wrong scaling of window created by the `webview` class when the system-wide DPI setting changes after the window was created.
 
         With a window already created, I expected it to automatically scale up when the DPI setting changed from 100% to 125%, but instead the size of the window remained at 100% with text scaling up.
     validations:
