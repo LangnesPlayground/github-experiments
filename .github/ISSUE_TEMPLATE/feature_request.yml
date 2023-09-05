@@ -37,7 +37,10 @@ body:
     id: backend
     attributes:
       label: Backend
-      description: Select the applicable backend. We may prioritize your backend.
+      description: |
+        Select a backend for which you would like to see the feature implemented.
+
+        Features should be cross-platform but we may prioritize your selected backend.
       multiple: false
       options:
         - WebKit/Cocoa
