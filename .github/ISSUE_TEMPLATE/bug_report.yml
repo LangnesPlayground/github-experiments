@@ -37,7 +37,7 @@ body:
     id: reproduction
     attributes:
       label: Steps to reproduce
-      description: How can we reproduce the bug?
+      description: Describe the steps to reproduce the bug.
       placeholder: |
         1. First step.
         2. Second step.
