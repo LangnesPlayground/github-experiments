@@ -1,6 +1,6 @@
 name: Bug Report
 description: File a bug report.
-labels: [enhancement]
+labels: [bug]
 projects: [projects/1]
 body:
   - type: markdown
