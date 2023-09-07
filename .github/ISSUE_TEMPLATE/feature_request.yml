@@ -1,7 +1,7 @@
 name: Feature Request
 description: Suggest an idea for this project
 labels: [enhancement]
-projects: [projects/1]
+projects: [LangnesPlayground/1]
 body:
   - type: markdown
     attributes:
