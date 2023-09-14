@@ -9,7 +9,7 @@ jobs:
     steps:
       - run: echo Hello
   create-github-release:
-    needs: publish
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: publish
