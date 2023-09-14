@@ -6,7 +6,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    run: echo Hello
+    steps:
+      - run: echo Hello
   create-github-release:
     needs: publish
     runs-on: ubuntu-latest
