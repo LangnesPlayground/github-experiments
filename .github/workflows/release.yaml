@@ -1,0 +1,36 @@
+name: Release
+on:
+  push:
+    branches:
+      - 'release-*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    run: echo Hello
+  create-github-release:
+    needs: publish
+    runs-on: ubuntu-latest
+    environment:
+      name: publish
+      url: ${{ steps.create-github-release.release-url }}
+    permissions:
+      # Allows creating a release
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble artifacts
+        run: |
+          echo Hello > hello.txt
+          echo World > world.txt
+          tar czvf release.tar.gz hello.txt world.txt
+      - name: Create GitHub Release
+        id: create-github-release
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
+          BUILD_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          files=(release.tar.gz)
+          gh config set prompt disabled || exit 1
+          release_url=$(gh release --repo "${{ github.repository }}" create \
+            --draft "auto-${BUILD_ID}" "${files[@]}") || exit 1
+          echo "release-url=${release_url}" >> "${GITHUB_OUTPUT}"
