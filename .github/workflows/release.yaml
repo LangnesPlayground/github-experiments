@@ -132,9 +132,9 @@ jobs:
               throw new Error("Failed to get release");
             }
 
-            core.setOutput("release-html-url", release.html_url);
             const release = releaseRes.data;
             const tagName = release.tag_name;
+            core.setOutput("release-html-url", release.html_url);
             console.log(release.tag_name, release)
 
             if (tagName === autoTag) {
