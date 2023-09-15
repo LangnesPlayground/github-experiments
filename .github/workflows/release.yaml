@@ -47,17 +47,16 @@ jobs:
             const filesToUpload = ["release.tar.gz"];
             const autoTag = `auto-${context.runId}-${context.runNumber}`;
             const target = context.sha;
-            const release = github.rest.repos.createRelease({
+            const release = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: autoTag,
               target_commitish: target,
               draft: true
             });
-            console.log(release)
             for (const filePath of filesToUpload) {
               const fileName = path.basename(filePath);
-              github.rest.repos.uploadReleaseAsset({
+              await github.rest.repos.uploadReleaseAsset({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 release_id: release.id,
