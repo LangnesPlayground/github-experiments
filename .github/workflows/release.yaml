@@ -43,7 +43,7 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         with:
           script: |
-            const fs = require("fs/promises");
+            const fs = require("fs");
             const path = require("path");
             const { ReadableStream } = require("stream/web");
 
