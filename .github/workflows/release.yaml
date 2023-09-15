@@ -42,7 +42,7 @@ jobs:
           files=(release.tar.gz)
           gh config set prompt disabled || exit 1
           release_url=$(gh release --repo "${{ github.repository }}" create \
-            --draft --target "${{ github.ref }}" "auto-${BUILD_ID}" "${files[@]}") || exit 1
+            --draft --target "${{ github.sha }}" "auto-${BUILD_ID}" "${files[@]}") || exit 1
           echo "release-url=${release_url}" >> "${GITHUB_OUTPUT}"
   publish-github-release:
     needs: create-github-release
@@ -56,10 +56,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Publish GitHub Release
-        id: publish-github-release
         env:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           gh config set prompt disabled || exit 1
           gh release --repo "${{ github.repository }}" edit \
-            --tag "${{ github.ref }}" || exit 1
+            --verify-tag || exit 1
