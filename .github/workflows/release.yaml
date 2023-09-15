@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - 'release-*'
-vars:
-  auto-tag-prefix: auto-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -42,17 +40,21 @@ jobs:
         run: |
           files=(release.tar.gz)
           build_id="${{ github.run_id }}-${{ github.run_attempt }}"
-          auto_tag="${{ vars.auto-tag-prefix }}${build_id}"
+          auto_tag="auto-${build_id}"
+
+          echo "release-auto-tag=${auto_tag}" >> "${GITHUB_OUTPUT}"
+
           repo="${{ github.repository }}"
           repo_owner="${repo%%/*}"
           repo_name="${repo#*/}"
+
           gh config set prompt disabled || exit 1
           release_url=$(gh release --repo "${{ github.repository }}" create \
             --draft --target "${{ github.sha }}" "${auto_tag}" "${files[@]}") || exit 1
           release_id=$(gh api graphql -f query="query { repository(owner: \"${repo_owner}\", name: \"${repo_name}\") { release(tagName: \"${auto_tag}\") { id tagName } } }" -q ".data.repository.release.id") || exit 1
+
           echo "release-id=${release_id}" >> "${GITHUB_OUTPUT}"
           echo "release-url=${release_url}" >> "${GITHUB_OUTPUT}"
-          echo "release-auto-tag=${auto_tag}" >> "${GITHUB_OUTPUT}"
           echo "::notice title=Update Release::Please review and finish editing the release draft."
   publish-github-release:
     needs: create-github-release
