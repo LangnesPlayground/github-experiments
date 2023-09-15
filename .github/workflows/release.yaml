@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - 'release-*'
+vars:
+  auto-tag-prefix: auto-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,13 +39,21 @@ jobs:
         id: create-github-release
         env:
           GH_TOKEN: ${{ secrets.github_token }}
-          BUILD_ID: ${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           files=(release.tar.gz)
+          build_id="${{ github.run_id }}-${{ github.run_attempt }}"
+          auto_tag="${{ vars.auto-tag-prefix }}${build_id}"
+          repo="${{ github.repository }}"
+          repo_owner="${repo%%/*}"
+          repo_name="${repo#*/}"
           gh config set prompt disabled || exit 1
           release_url=$(gh release --repo "${{ github.repository }}" create \
-            --draft --target "${{ github.sha }}" "auto-${BUILD_ID}" "${files[@]}") || exit 1
+            --draft --target "${{ github.sha }}" "${auto_tag}" "${files[@]}") || exit 1
+          release_id=$(gh api graphql -f query="query { repository(owner: \"${repo_owner}\", name: \"${repo_name}\") { release(tagName: \"${auto_tag}\") { id tagName } } }" -q ".data.repository.release.id") || exit 1
+          echo "release-id=${release_id}" >> "${GITHUB_OUTPUT}"
           echo "release-url=${release_url}" >> "${GITHUB_OUTPUT}"
+          echo "release-auto-tag=${auto_tag}" >> "${GITHUB_OUTPUT}"
+          echo "::notice title=Update Release::Please review and finish editing the release draft."
   publish-github-release:
     needs: create-github-release
     runs-on: ubuntu-latest
@@ -54,11 +64,19 @@ jobs:
       # Allows updating a release
       contents: write
     steps:
-      - uses: actions/checkout@v4
       - name: Publish GitHub Release
         env:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           gh config set prompt disabled || exit 1
-          gh release --repo "${{ github.repository }}" edit \
-            --verify-tag || exit 1
+          release_id="${{ steps.create-github-release.outputs.release-id }}"
+          auto_tag="${{ steps.create-github-release.outputs.release-auto-tag }}"
+          tag=$(gh api graphql -f query="query { repository(owner: \"${repo_owner}\", name: \"${repo_name}\") { release(id: \"${release_id}\") { tagName } } }" -q ".data.repository.release.tagName") || exit 1
+          if [[ "${tag}" == "${auto_tag}" ]]; then
+            echo "::error title=Update Release::Did you forget to update the tag of the release?"
+            exit 1
+          fi
+          if ! gh release --repo "${{ github.repository }}" edit --verify-tag; then
+            echo "::error title=Update Release::Please make sure to push the tag for the release."
+            exit 1
+          fi
