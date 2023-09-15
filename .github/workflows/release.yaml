@@ -109,6 +109,7 @@ jobs:
           RELEASE_API_URL: ${{ needs.create-github-release.outputs.release-api-url }}
           RELEASE_HTML_URL: ${{ needs.create-github-release.outputs.release-html-url }}
           AUTO_TAG: ${{ needs.create-github-release.outputs.auto-tag }}
+          TARGET_COMMIT: ${{ github.sha }}
         with:
           script: |
             const releaseApiUrl = process.env.RELEASE_API_URL;
@@ -125,32 +126,32 @@ jobs:
             if (!autoTag) {
               throw new Error("Auto tag is missing");
             }
+            const targetCommit = process.env.TARGET_COMMIT;
+            if (!targetCommit) {
+              throw new Error("Target commit is missing");
+            }
+
 
             const releaseRes = await github.rest.repos.getRelease({
               url: releaseApiUrl
             });
 
-            console.log(releaseRes)
+            if (releaseRes.status !== 201) {
+              throw new Error("Failed to get release");
+            }
 
-#        run: |
-#          repo="${{ github.repository }}"
-#          repo_owner="${repo%%/*}"
-#          repo_name="${repo#*/}"
-#
-#          auto_tag="${{ needs.create-github-release.outputs.auto-tag }}"
-#          if [[ -z "${auto_tag}" ]]; then
-#            echo "::error title=GitHub Release::Auto tag is missing."
-#            exit 1
-#          fi
-#
-#          gh config set prompt disabled || exit 1
-#
-#          output=$(gh api graphql -f query="query { repository(owner: \"${repo_owner}\", name: \"${repo_name}\") { release(tagName: \"${auto_tag}\") { id } } }" -q '.data.repository.release.id') || exit 1
-#          if [[ ! -z "${output}" ]]; then
-#            echo "::error title=GitHub Release::Did you forget to update the tag of the release?"
-#            exit 1
-#          fi
-#
+            const release = releaseRes.data;
+
+            if (release.tag_name === autoTag) {
+              core.error("Did you forget to update the tag for the release?", { title: "GitHub Release" });
+              throw new Error("Tag assigned to release is the same as the generated one");
+            }
+
+            if (release.target_commitish !== targetCommit) {
+              core.error("Please refrain from changing the target commit.", { title: "GitHub Release" });
+              throw new Error("Tag assigned to release was changed");
+            }
+
 #          gh release --repo "${repo}" view 0.1.0 --json tagName -q '.tagName'
 #
 #          if ! gh release --repo "${repo}" edit --verify-tag; then
