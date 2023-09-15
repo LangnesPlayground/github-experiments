@@ -32,10 +32,6 @@ jobs:
       release-url: ${{ steps.create-github-release.outputs.release-url }}
       auto-tag: ${{ steps.create-github-release.outputs.auto-tag }}
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -49,6 +45,7 @@ jobs:
           script: |
             const fs = require("fs/promises");
             const path = require("path");
+            const { ReadableStream } = require("stream/web");
 
             function createWebStreamFromFile(filePath) {
               let nodeStream;
