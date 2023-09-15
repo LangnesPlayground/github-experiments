@@ -23,9 +23,9 @@ jobs:
   create-github-release:
     needs: build
     runs-on: ubuntu-latest
-#    environment:
-#      name: production
-#      url: ${{ steps.create-github-release.outputs.release-url }}
+    environment:
+      name: production
+      url: ${{ steps.create-github-release.outputs.release-url }}
     permissions:
       # Allows creating a release
       contents: write
@@ -90,8 +90,7 @@ jobs:
               const asset = assetRes.data;
             }
 
-            core.notice(`Please review and edit the release draft: ${release.html_url}
-              Make no mistake—edit the draft, don't publish it.`, { title: "GitHub Release" });
+            core.notice(`Please review and edit the release draft. Make no mistake—edit the draft, don't publish it.`, { title: "GitHub Release" });
 
   check-github-release:
     needs: create-github-release
