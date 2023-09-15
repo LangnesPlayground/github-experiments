@@ -28,6 +28,9 @@ jobs:
     permissions:
       # Allows creating a release
       contents: write
+    outputs:
+      release-id: ${{ steps.create-github-release.outputs.release-id }}
+      release-auto-tag: ${{ steps.create-github-release.outputs.release-auto-tag }}
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -71,12 +74,12 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           gh config set prompt disabled || exit 1
-          release_id="${{ steps.create-github-release.outputs.release-id }}"
+          release_id="${{ needs.create-github-release.outputs.release-id }}"
           if [[ -z "${release_id}" ]]; then
             echo "::error title=Update Release::Release ID is missing."
             exit 1
           fi
-          auto_tag="${{ steps.create-github-release.outputs.release-auto-tag }}"
+          auto_tag="${{ needs.create-github-release.outputs.release-auto-tag }}"
           if [[ -z "${auto_tag}" ]]; then
             echo "::error title=Update Release::Auto tag is missing."
             exit 1
