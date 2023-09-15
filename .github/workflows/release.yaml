@@ -12,8 +12,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment:
-      name: publish
-      url: ${{ steps.create-github-release.release-url }}
+      name: staging
+      url: ${{ steps.create-github-release.outputs.release-url }}
     permissions:
       # Allows creating a release
       contents: write
