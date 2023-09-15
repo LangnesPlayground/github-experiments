@@ -22,9 +22,9 @@ jobs:
   create-github-release:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: ${{ steps.create-github-release.outputs.release-url }}
+#    environment:
+#      name: production
+#      url: ${{ steps.create-github-release.outputs.release-url }}
     permissions:
       # Allows creating a release
       contents: write
@@ -59,9 +59,9 @@ jobs:
   publish-github-release:
     needs: create-github-release
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: ${{ steps.create-github-release.outputs.release-url }}
+#    environment:
+#      name: production
+#      url: ${{ steps.create-github-release.outputs.release-url }}
     permissions:
       # Allows updating a release
       contents: write
@@ -72,7 +72,15 @@ jobs:
         run: |
           gh config set prompt disabled || exit 1
           release_id="${{ steps.create-github-release.outputs.release-id }}"
+          if [[ -z "${release_id}" ]]; then
+            echo "::error title=Update Release::Release ID is missing."
+            exit 1
+          fi
           auto_tag="${{ steps.create-github-release.outputs.release-auto-tag }}"
+          if [[ -z "${auto_tag}" ]]; then
+            echo "::error title=Update Release::Auto tag is missing."
+            exit 1
+          fi
           tag=$(gh api graphql -f query="query { repository(owner: \"${repo_owner}\", name: \"${repo_name}\") { release(id: \"${release_id}\") { tagName } } }" -q ".data.repository.release.tagName") || exit 1
           if [[ "${tag}" == "${auto_tag}" ]]; then
             echo "::error title=Update Release::Did you forget to update the tag of the release?"
