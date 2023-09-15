@@ -90,7 +90,7 @@ jobs:
               const asset = assetRes.data;
             }
 
-            core.notice(`Please review and finish editing the release draft: ${release.html_url}`, { title: "GitHub Release" });
+            core.notice(`Please review and edit the release draft: ${release.html_url}`, { title: "GitHub Release" });
 
   publish-github-release:
     needs: create-github-release
@@ -134,16 +134,16 @@ jobs:
             const releaseRes = await github.rest.repos.getRelease({
               url: releaseApiUrl
             });
-            console.log(releaseApiUrl, releaseRes)
 
             if (releaseRes.status !== 200) {
               throw new Error("Failed to get release");
             }
 
             const release = releaseRes.data;
-            const tag = release.tag_name;
+            const tagName = release.tag_name;
+            console.log(release.tag_name, release)
 
-            if (tag === autoTag) {
+            if (tagName === autoTag) {
               core.error("Did you forget to update the tag for the release?", { title: "GitHub Release" });
               throw new Error("Tag assigned to release is the same as the generated one");
             }
@@ -156,7 +156,7 @@ jobs:
             const tagRefReq = await github.rest.git.getRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: `tags/${tag}`
+              ref: `tags/${tagName}`
             });
 
             if (tagRefReq.status !== 200) {
