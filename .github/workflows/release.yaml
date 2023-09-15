@@ -22,9 +22,9 @@ jobs:
   create-github-release:
     needs: build
     runs-on: ubuntu-latest
-#    environment:
-#      name: production
-#      url: ${{ steps.create-github-release.outputs.release-url }}
+    environment:
+      name: production
+      url: ${{ steps.create-github-release.outputs.release-url }}
     permissions:
       # Allows creating a release
       contents: write
@@ -61,9 +61,9 @@ jobs:
   publish-github-release:
     needs: create-github-release
     runs-on: ubuntu-latest
-#    environment:
-#      name: production
-#      url: ${{ steps.create-github-release.outputs.release-url }}
+    environment:
+      name: production
+      url: ${{ steps.create-github-release.outputs.release-url }}
     permissions:
       # Allows updating a release
       contents: write
@@ -76,17 +76,20 @@ jobs:
           repo_owner="${repo%%/*}"
           repo_name="${repo#*/}"
 
-          gh config set prompt disabled || exit 1
           auto_tag="${{ needs.create-github-release.outputs.auto-tag }}"
           if [[ -z "${auto_tag}" ]]; then
             echo "::error title=GitHub Release::Auto tag is missing."
             exit 1
           fi
+
+          gh config set prompt disabled || exit 1
+
           output=$(gh api graphql -f query="query { repository(owner: \"${repo_owner}\", name: \"${repo_name}\") { release(tagName: \"${auto_tag}\") { id } } }" -q '.data.repository.release.id') || exit 1
           if [[ ! -z "${output}" ]]; then
             echo "::error title=GitHub Release::Did you forget to update the tag of the release?"
             exit 1
           fi
+
           if ! gh release --repo "${repo}" edit --verify-tag; then
             echo "::error title=GitHub Release::Please make sure to push the tag for the release."
             exit 1
