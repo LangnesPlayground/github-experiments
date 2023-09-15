@@ -54,6 +54,7 @@ jobs:
               target_commitish: target,
               draft: true
             });
+            console.log("Release:", release);
             if (release.status !== 200) {
               throw new Error("Failed to create release");
             }
@@ -66,6 +67,7 @@ jobs:
                 name: fileName,
                 data: `@${filePath}`
               });
+              console.log("Asset:", asset);
               if (asset.status !== 200) {
                 throw new Error("Failed to upload asset");
               }
