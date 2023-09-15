@@ -144,7 +144,7 @@ jobs:
 
             if (release.target_commitish !== targetCommit) {
               core.error("Please refrain from changing the target commit.", { title: "GitHub Release" });
-              throw new Error("Tag assigned to release was changed");
+              process.exit(1);
             }
 
             const tagRefReq = await github.rest.git.getRef({
@@ -155,7 +155,7 @@ jobs:
 
             if (tagRefReq.status !== 200) {
               core.error("Please make sure to push the tag for the release.", { title: "GitHub Release" });
-              throw new Error("Tag assigned to release was not found");
+              process.exit(1);
             }
 
             const tagRef = tagRefReq.data;
@@ -166,7 +166,17 @@ jobs:
               url: tagUrl
             });
 
-            console.log(tagRes)
+            const tag = tagRes.data;
+
+            if (tag.verification.verified !== true) {
+              core.error("The tag assigned to the release must be verified by GitHub.", { title: "GitHub Release" });
+              process.exit(1);
+            }
+
+            if (tag.object.sha !== targetCommit) {
+              core.error("The tag assigned to the release points to the wrong commit.", { title: "GitHub Release" });
+              process.exit(1);
+            }
 
             /*await github.rest.repos.updateRelease({
               url: release.url,
