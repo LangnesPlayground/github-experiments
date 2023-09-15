@@ -55,7 +55,7 @@ jobs:
               draft: true
             });
             console.log("Release:", release);
-            if (release.status !== 200) {
+            if (release.status !== 201) {
               throw new Error("Failed to create release");
             }
             for (const filePath of filesToUpload) {
@@ -68,7 +68,7 @@ jobs:
                 data: `@${filePath}`
               });
               console.log("Asset:", asset);
-              if (asset.status !== 200) {
+              if (asset.status !== 201) {
                 throw new Error("Failed to upload asset");
               }
             }
