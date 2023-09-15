@@ -19,6 +19,7 @@ jobs:
           name: release
           path: release.tar.gz
           retention-days: 5
+
   create-github-release:
     needs: build
     runs-on: ubuntu-latest
@@ -89,21 +90,19 @@ jobs:
               const asset = assetRes.data;
             }
 
-            core.notice(`Please review and edit the release draft: ${release.html_url}`, { title: "GitHub Release" });
+            core.notice(`Please review and edit the release draft: ${release.html_url}
+              Make no mistake—edit the draft, don't publish it.`, { title: "GitHub Release" });
 
-  publish-github-release:
+  check-github-release:
     needs: create-github-release
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: ${{ steps.publish-github-release.outputs.release-html-url }}
-    permissions:
-      # Allows updating a release
-      contents: write
+      url: ${{ steps.check-github-release.outputs.release-html-url }}
     steps:
       - uses: actions/github-script@v6
-        name: Publish GitHub Release
-        id: publish-github-release
+        name: Check GitHub Release
+        id: check-github-release
         env:
           GH_TOKEN: ${{ secrets.github_token }}
           RELEASE_API_URL: ${{ needs.create-github-release.outputs.release-api-url }}
@@ -143,7 +142,12 @@ jobs:
             }
 
             if (release.target_commitish !== targetCommit) {
-              core.error("Please refrain from changing the target commit.", { title: "GitHub Release" });
+              core.error("Refrain from changing the target commit.", { title: "GitHub Release" });
+              process.exit(1);
+            }
+
+            if (release.draft !== true) {
+              core.error("The release was supposed to be a draft but isn't anymore.", { title: "GitHub Release" });
               process.exit(1);
             }
 
@@ -154,12 +158,11 @@ jobs:
             });
 
             if (tagRefReq.status !== 200) {
-              core.error("Please make sure to push the tag for the release.", { title: "GitHub Release" });
+              core.error("Make sure to push the tag for the release.", { title: "GitHub Release" });
               process.exit(1);
             }
 
             const tagRef = tagRefReq.data;
-            const tagSha = tagRef.object.sha;
             const tagUrl = tagRef.object.url;
 
             const tagRes = await github.rest.git.getTag({
@@ -178,14 +181,40 @@ jobs:
               process.exit(1);
             }
 
-            /*await github.rest.repos.updateRelease({
-              url: release.url,
-              draft: false
-            });*/
+            core.notice(`The release meets my critera so I will defer to your judgment.`, { title: "GitHub Release" });
 
-#          gh release --repo "${repo}" view 0.1.0 --json tagName -q '.tagName'
-#
-#          if ! gh release --repo "${repo}" edit --verify-tag; then
-#            echo "::error title=GitHub Release::Please make sure to push the tag for the release."
-#            exit 1
-#          fi
+  publish-github-release:
+    needs: [create-github-release, check-github-release]
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.publish-github-release.outputs.release-html-url }}
+    permissions:
+      # Allows updating a release
+      contents: write
+    steps:
+      - uses: actions/github-script@v6
+        name: Publish GitHub Release
+        id: publish-github-release
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
+          RELEASE_API_URL: ${{ needs.create-github-release.outputs.release-api-url }}
+        with:
+          script: |
+            const releaseApiUrl = process.env.RELEASE_API_URL;
+            if (!releaseApiUrl) {
+              throw new Error("Release API URL is missing");
+            }
+
+            const releaseRes = await github.rest.repos.updateRelease({
+              url: releaseApiUrl,
+              draft: false
+            });
+
+            if (releaseRes.status !== 200) {
+              throw new Error("Failed to update release");
+            }
+
+            const release = releaseRes.data;
+            core.setOutput("release-html-url", release.html_url);
+            core.notice(`The release has been published.`, { title: "GitHub Release" });
