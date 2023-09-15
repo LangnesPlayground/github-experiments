@@ -136,13 +136,14 @@ jobs:
             });
             console.log(releaseApiUrl, releaseRes)
 
-            if (releaseRes.status !== 201) {
+            if (releaseRes.status !== 200) {
               throw new Error("Failed to get release");
             }
 
             const release = releaseRes.data;
+            const tag = release.tag_name;
 
-            if (release.tag_name === autoTag) {
+            if (tag === autoTag) {
               core.error("Did you forget to update the tag for the release?", { title: "GitHub Release" });
               throw new Error("Tag assigned to release is the same as the generated one");
             }
@@ -152,10 +153,32 @@ jobs:
               throw new Error("Tag assigned to release was changed");
             }
 
-            await github.rest.repos.updateRelease({
+            const tagRefReq = await github.rest.git.getRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `tags/${tag}`
+            });
+
+            if (tagRefReq.status !== 200) {
+              core.error("Please make sure to push the tag for the release.", { title: "GitHub Release" });
+              throw new Error("Tag assigned to release was not found");
+            }
+
+            const tagRef = refReq.data;
+            const tagSha = tagRef.sha;
+
+            const tagRes = await github.rest.git.getTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_sha: tagSha
+            });
+
+            console.log(tagRes)
+
+            /*await github.rest.repos.updateRelease({
               url: release.url,
               draft: false
-            });
+            });*/
 
 #          gh release --repo "${repo}" view 0.1.0 --json tagName -q '.tagName'
 #
