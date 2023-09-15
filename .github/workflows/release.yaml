@@ -60,7 +60,7 @@ jobs:
               const asset = await github.rest.repos.uploadReleaseAsset({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                release_id: release.id,
+                release_id: release.data.id,
                 name: fileName,
                 data: `@${filePath}`
               });
