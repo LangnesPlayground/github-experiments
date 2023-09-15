@@ -30,7 +30,6 @@ jobs:
       contents: write
     outputs:
       release-api-url: ${{ steps.create-github-release.outputs.release-api-url }}
-      release-html-url: ${{ steps.create-github-release.outputs.release-html-url }}
       auto-tag: ${{ steps.create-github-release.outputs.auto-tag }}
     steps:
       - name: Download artifacts
@@ -97,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: ${{ needs.create-github-release.outputs.release-html-url }}
+      url: ${{ steps.create-github-release.outputs.release-html-url }}
     permissions:
       # Allows updating a release
       contents: write
@@ -107,7 +106,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.github_token }}
           RELEASE_API_URL: ${{ needs.create-github-release.outputs.release-api-url }}
-          RELEASE_HTML_URL: ${{ needs.create-github-release.outputs.release-html-url }}
           AUTO_TAG: ${{ needs.create-github-release.outputs.auto-tag }}
           TARGET_COMMIT: ${{ github.sha }}
         with:
@@ -115,11 +113,6 @@ jobs:
             const releaseApiUrl = process.env.RELEASE_API_URL;
             if (!releaseApiUrl) {
               throw new Error("Release API URL is missing");
-            }
-
-            const releaseHtmlUrl = process.env.RELEASE_HTML_URL;
-            if (!releaseHtmlUrl) {
-              throw new Error("Release HTML URL is missing");
             }
 
             const autoTag = process.env.AUTO_TAG;
@@ -139,6 +132,7 @@ jobs:
               throw new Error("Failed to get release");
             }
 
+            core.setOutput("release-html-url", release.html_url);
             const release = releaseRes.data;
             const tagName = release.tag_name;
             console.log(release.tag_name, release)
