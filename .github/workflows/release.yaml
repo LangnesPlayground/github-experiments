@@ -131,10 +131,10 @@ jobs:
               throw new Error("Target commit is missing");
             }
 
-
             const releaseRes = await github.rest.repos.getRelease({
               url: releaseApiUrl
             });
+            console.log(releaseApiUrl, releaseRes)
 
             if (releaseRes.status !== 201) {
               throw new Error("Failed to get release");
@@ -151,6 +151,11 @@ jobs:
               core.error("Please refrain from changing the target commit.", { title: "GitHub Release" });
               throw new Error("Tag assigned to release was changed");
             }
+
+            await github.rest.repos.updateRelease({
+              url: release.url,
+              draft: false
+            });
 
 #          gh release --repo "${repo}" view 0.1.0 --json tagName -q '.tagName'
 #
