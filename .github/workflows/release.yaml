@@ -138,8 +138,8 @@ jobs:
             core.setOutput("release-html-url", release.html_url);
 
             if (tagName === autoTag) {
-              core.error("Did you forget to update the tag for the release?", { title: "GitHub Release" });
-              throw new Error("Tag assigned to release is the same as the generated one");
+              core.error("It appears that the release still has the generated tag assigned to it. Did you forget to change the tag?", { title: "GitHub Release" });
+              process.exit(1);
             }
 
             if (release.target_commitish !== targetCommit) {
