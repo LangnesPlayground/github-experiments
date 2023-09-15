@@ -7,23 +7,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo Hello
-  create-github-release:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: staging
-      url: ${{ steps.create-github-release.outputs.release-url }}
-    permissions:
-      # Allows creating a release
-      contents: write
-    steps:
       - uses: actions/checkout@v4
       - name: Assemble artifacts
         run: |
           echo Hello > hello.txt
           echo World > world.txt
           tar czvf release.tar.gz hello.txt world.txt
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: release
+          path: release.tar.gz
+          retention-days: 5
+  create-github-release:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.create-github-release.outputs.release-url }}
+    permissions:
+      # Allows creating a release
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: release
       - name: Create GitHub Release
         id: create-github-release
         env:
@@ -35,3 +44,22 @@ jobs:
           release_url=$(gh release --repo "${{ github.repository }}" create \
             --draft --target "${{ github.ref }}" "auto-${BUILD_ID}" "${files[@]}") || exit 1
           echo "release-url=${release_url}" >> "${GITHUB_OUTPUT}"
+  publish-github-release:
+    needs: create-github-release
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.create-github-release.outputs.release-url }}
+    permissions:
+      # Allows updating a release
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish GitHub Release
+        id: publish-github-release
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
+        run: |
+          gh config set prompt disabled || exit 1
+          gh release --repo "${{ github.repository }}" edit \
+            --tag "${{ github.ref }}" || exit 1
