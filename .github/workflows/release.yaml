@@ -72,6 +72,7 @@ jobs:
                 url: release.upload_url,
                 headers: {
                   authorization: process.env.GH_TOKEN
+                  "content-length": fs.statSync(filePath).size
                 },
                 request: {
                   fetch
