@@ -27,7 +27,7 @@ jobs:
       name: production
       url: ${{ steps.create-github-release.outputs.release-html-url }}
     permissions:
-      # Allows creating a release
+      # Allows creating releases
       contents: write
     outputs:
       release-api-url: ${{ steps.create-github-release.outputs.release-api-url }}
@@ -98,6 +98,9 @@ jobs:
     environment:
       name: production
       url: ${{ steps.check-github-release.outputs.release-html-url }}
+    permissions:
+      # Allows retrieving releases
+      contents: read
     steps:
       - uses: actions/github-script@v6
         name: Check GitHub Release
@@ -189,7 +192,7 @@ jobs:
       name: production
       url: ${{ steps.publish-github-release.outputs.release-html-url }}
     permissions:
-      # Allows updating a release
+      # Allows updating releases
       contents: write
     steps:
       - uses: actions/github-script@v6
