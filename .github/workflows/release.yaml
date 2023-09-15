@@ -76,9 +76,6 @@ jobs:
                   authorization: process.env.GH_TOKEN,
                   "content-length": fileSize
                 },
-                request: {
-                  fetch
-                },
                 name: fileName,
                 data: fileStream
               });
