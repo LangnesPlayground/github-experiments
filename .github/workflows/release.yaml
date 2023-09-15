@@ -28,9 +28,10 @@ jobs:
     permissions:
       # Allows creating a release
       contents: write
-#    outputs:
-#      release-url: ${{ steps.create-github-release.outputs.release-url }}
-#      auto-tag: ${{ steps.create-github-release.outputs.auto-tag }}
+    outputs:
+      release-api-url: ${{ steps.create-github-release.outputs.release-api-url }}
+      release-html-url: ${{ steps.create-github-release.outputs.release-html-url }}
+      auto-tag: ${{ steps.create-github-release.outputs.auto-tag }}
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -94,9 +95,9 @@ jobs:
   publish-github-release:
     needs: create-github-release
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: ${{ needs.create-github-release.outputs.release-html-url }}
+#    environment:
+#      name: production
+#      url: ${{ needs.create-github-release.outputs.release-html-url }}
     permissions:
       # Allows updating a release
       contents: write
