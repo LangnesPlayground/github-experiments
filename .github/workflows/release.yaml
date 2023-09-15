@@ -51,7 +51,7 @@ jobs:
           repo_name="${repo#*/}"
 
           gh config set prompt disabled || exit 1
-          release_url=$(gh release --repo "${{ github.repository }}" create \
+          release_url=$(gh release --repo "${repo}" create \
             --draft --target "${{ github.sha }}" "${auto_tag}" "${files[@]}") || exit 1
           release_id=$(gh api graphql -f query="query { repository(owner: \"${repo_owner}\", name: \"${repo_name}\") { release(tagName: \"${auto_tag}\") { id tagName } } }" -q ".data.repository.release.id") || exit 1
 
@@ -72,6 +72,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
+          repo="${{ github.repository }}"
+          repo_owner="${repo%%/*}"
+          repo_name="${repo#*/}"
+
           gh config set prompt disabled || exit 1
           auto_tag="${{ needs.create-github-release.outputs.auto-tag }}"
           if [[ -z "${auto_tag}" ]]; then
@@ -83,7 +87,7 @@ jobs:
             echo "::error title=GitHub Release::Did you forget to update the tag of the release?"
             exit 1
           fi
-          if ! gh release --repo "${{ github.repository }}" edit --verify-tag; then
+          if ! gh release --repo "${repo}" edit --verify-tag; then
             echo "::error title=GitHub Release::Please make sure to push the tag for the release."
             exit 1
           fi
