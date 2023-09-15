@@ -95,9 +95,9 @@ jobs:
   publish-github-release:
     needs: create-github-release
     runs-on: ubuntu-latest
-#    environment:
-#      name: production
-#      url: ${{ needs.create-github-release.outputs.release-html-url }}
+    environment:
+      name: production
+      url: ${{ needs.create-github-release.outputs.release-html-url }}
     permissions:
       # Allows updating a release
       contents: write
