@@ -63,10 +63,14 @@ jobs:
             for (const filePath of filesToUpload) {
               const fileName = path.basename(filePath);
               const fileStream = fs.createReadStream(filePath);
-              const assetRes = await github.repos.uploadReleaseAsset({
+              const assetRes = await github.rest.request({
+                method: "POST",
                 url: release.upload_url,
+                headers: {
+                  authorization: process.env.GH_TOKEN
+                },
                 name: fileName,
-                file: fileStream
+                body: fileStream
               });
               console.log(assetRes)
             }
