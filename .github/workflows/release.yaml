@@ -73,6 +73,9 @@ jobs:
                 headers: {
                   authorization: process.env.GH_TOKEN
                 },
+                request: {
+                  fetch
+                },
                 name: fileName,
                 data: fs.createReadStream(filePath)
               });
