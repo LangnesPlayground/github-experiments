@@ -67,18 +67,20 @@ jobs:
 
             for (const filePath of filesToUpload) {
               const fileName = path.basename(filePath);
+              const fileSize = fs.statSync(filePath).size;
+              const fileStream = fs.createReadStream(filePath);
               const assetRes = await github.request({
                 method: "POST",
                 url: release.upload_url,
                 headers: {
-                  authorization: process.env.GH_TOKEN
-                  "content-length": fs.statSync(filePath).size
+                  authorization: process.env.GH_TOKEN,
+                  "content-length": fileSize
                 },
                 request: {
                   fetch
                 },
                 name: fileName,
-                data: fs.createReadStream(filePath)
+                data: fileStream
               });
               console.log(assetRes)
             }
