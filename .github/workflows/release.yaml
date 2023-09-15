@@ -164,7 +164,7 @@ jobs:
               throw new Error("Tag assigned to release was not found");
             }
 
-            const tagRef = refReq.data;
+            const tagRef = tagRefReq.data;
             const tagSha = tagRef.sha;
 
             const tagRes = await github.rest.git.getTag({
