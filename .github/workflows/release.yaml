@@ -86,8 +86,8 @@ jobs:
               console.log(asset.json())
               if (assetRes.status !== 201) {
                 throw new Error("Failed to upload asset");
-              }*/
-            }
+              }
+            }*/
 #        run: |
 #          files=(release.tar.gz)
 #          build_id="${{ github.run_id }}-${{ github.run_attempt }}"
