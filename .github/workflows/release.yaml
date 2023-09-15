@@ -61,6 +61,16 @@ jobs:
             const release = releaseRes.data;
             console.log(release);
             for (const filePath of filesToUpload) {
+              const fileName = path.basename(filePath);
+              const fileStream = fs.createReadStream(filePath);
+              const assetRes = await github.repos.uploadReleaseAsset({
+                url: release.upload_url,
+                name: fileName,
+                file: fileStream
+              });
+              console.log(assetRes)
+            }
+            /*for (const filePath of filesToUpload) {
               const uploadUrl = new URL(release.upload_url);
               const fileName = path.basename(filePath);
               const fileStream = fs.createReadStream(filePath);
@@ -76,7 +86,7 @@ jobs:
               console.log(asset.json())
               if (assetRes.status !== 201) {
                 throw new Error("Failed to upload asset");
-              }
+              }*/
             }
 #        run: |
 #          files=(release.tar.gz)
