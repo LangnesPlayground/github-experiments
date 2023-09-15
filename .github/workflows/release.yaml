@@ -22,13 +22,14 @@ jobs:
   create-github-release:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: ${{ steps.create-github-release.outputs.release-url }}
+#    environment:
+#      name: production
+#      url: ${{ steps.create-github-release.outputs.release-url }}
     permissions:
       # Allows creating a release
       contents: write
     outputs:
+      release-url: ${{ steps.create-github-release.outputs.release-url }}
       auto-tag: ${{ steps.create-github-release.outputs.auto-tag }}
     steps:
       - name: Download artifacts
@@ -37,60 +38,74 @@ jobs:
           name: release
       - name: Create GitHub Release
         id: create-github-release
+        uses: actions/github-script@v6
         env:
           GH_TOKEN: ${{ secrets.github_token }}
-        run: |
-          files=(release.tar.gz)
-          build_id="${{ github.run_id }}-${{ github.run_attempt }}"
-          auto_tag="auto-${build_id}"
-
-          echo "auto-tag=${auto_tag}" >> "${GITHUB_OUTPUT}"
-
-          repo="${{ github.repository }}"
-          repo_owner="${repo%%/*}"
-          repo_name="${repo#*/}"
-
-          gh config set prompt disabled || exit 1
-          release_url=$(gh release --repo "${repo}" create \
-            --draft --target "${{ github.sha }}" "${auto_tag}" "${files[@]}") || exit 1
-          release_id=$(gh api graphql -f query="query { repository(owner: \"${repo_owner}\", name: \"${repo_name}\") { release(tagName: \"${auto_tag}\") { id tagName } } }" -q ".data.repository.release.id") || exit 1
-
-          echo "release-id=${release_id}" >> "${GITHUB_OUTPUT}"
-          echo "release-url=${release_url}" >> "${GITHUB_OUTPUT}"
-          echo "::notice title=GitHub Release::Please review and finish editing the release draft."
-  publish-github-release:
-    needs: create-github-release
-    runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: ${{ steps.create-github-release.outputs.release-url }}
-    permissions:
-      # Allows updating a release
-      contents: write
-    steps:
-      - name: Publish GitHub Release
-        env:
-          GH_TOKEN: ${{ secrets.github_token }}
-        run: |
-          repo="${{ github.repository }}"
-          repo_owner="${repo%%/*}"
-          repo_name="${repo#*/}"
-
-          auto_tag="${{ needs.create-github-release.outputs.auto-tag }}"
-          if [[ -z "${auto_tag}" ]]; then
-            echo "::error title=GitHub Release::Auto tag is missing."
-            exit 1
-          fi
-
-          gh config set prompt disabled || exit 1
-
-          output=$(gh api graphql -f query="query { repository(owner: \"${repo_owner}\", name: \"${repo_name}\") { release(tagName: \"${auto_tag}\") { id } } }" -q '.data.repository.release.id') || exit 1
-          if [[ ! -z "${output}" ]]; then
-            echo "::error title=GitHub Release::Did you forget to update the tag of the release?"
-            exit 1
-          fi
-
-          if ! gh release --repo "${repo}" edit --verify-tag; then
-            echo "::error title=GitHub Release::Please make sure to push the tag for the release."
-            exit 1
-          fi
+        with:
+          script: |
+            const autoTag = `auto-${context.runId}-${context.runNumber}`;
+            const target = context.sha;
+            github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: autoTag,
+              target_commitish: target,
+              draft: true
+            });
+#        run: |
+#          files=(release.tar.gz)
+#          build_id="${{ github.run_id }}-${{ github.run_attempt }}"
+#          auto_tag="auto-${build_id}"
+#
+#          echo "auto-tag=${auto_tag}" >> "${GITHUB_OUTPUT}"
+#
+#          repo="${{ github.repository }}"
+#          repo_owner="${repo%%/*}"
+#          repo_name="${repo#*/}"
+#
+#          gh config set prompt disabled || exit 1
+#          release_url=$(gh release --repo "${repo}" create \
+#            --draft --target "${{ github.sha }}" "${auto_tag}" "${files[@]}") || exit 1
+#          release_id=$(gh api graphql -f query="query { repository(owner: \"${repo_owner}\", name: \"${repo_name}\") { release(tagName: \"${auto_tag}\") { id tagName } } }" -q ".data.repository.release.id") || exit 1
+#
+#          echo "release-id=${release_id}" >> "${GITHUB_OUTPUT}"
+#          echo "release-url=${release_url}" >> "${GITHUB_OUTPUT}"
+#          echo "::notice title=GitHub Release::Please review and finish editing the release draft."
+#  publish-github-release:
+#    needs: create-github-release
+#    runs-on: ubuntu-latest
+#    environment:
+#      name: production
+#      url: ${{ needs.create-github-release.outputs.release-url }}
+#    permissions:
+#      # Allows updating a release
+#      contents: write
+#    steps:
+#      - name: Publish GitHub Release
+#        env:
+#          GH_TOKEN: ${{ secrets.github_token }}
+#        run: |
+#          repo="${{ github.repository }}"
+#          repo_owner="${repo%%/*}"
+#          repo_name="${repo#*/}"
+#
+#          auto_tag="${{ needs.create-github-release.outputs.auto-tag }}"
+#          if [[ -z "${auto_tag}" ]]; then
+#            echo "::error title=GitHub Release::Auto tag is missing."
+#            exit 1
+#          fi
+#
+#          gh config set prompt disabled || exit 1
+#
+#          output=$(gh api graphql -f query="query { repository(owner: \"${repo_owner}\", name: \"${repo_name}\") { release(tagName: \"${auto_tag}\") { id } } }" -q '.data.repository.release.id') || exit 1
+#          if [[ ! -z "${output}" ]]; then
+#            echo "::error title=GitHub Release::Did you forget to update the tag of the release?"
+#            exit 1
+#          fi
+#
+#          gh release --repo "${repo}" view 0.1.0 --json tagName -q '.tagName'
+#
+#          if ! gh release --repo "${repo}" edit --verify-tag; then
+#            echo "::error title=GitHub Release::Please make sure to push the tag for the release."
+#            exit 1
+#          fi
