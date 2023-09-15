@@ -33,5 +33,5 @@ jobs:
           files=(release.tar.gz)
           gh config set prompt disabled || exit 1
           release_url=$(gh release --repo "${{ github.repository }}" create \
-            --draft "auto-${BUILD_ID}" "${files[@]}") || exit 1
+            --draft --target "${{ github.ref }}" "auto-${BUILD_ID}" "${files[@]}") || exit 1
           echo "release-url=${release_url}" >> "${GITHUB_OUTPUT}"
