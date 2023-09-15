@@ -96,13 +96,14 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: ${{ steps.create-github-release.outputs.release-html-url }}
+      url: ${{ steps.publish-github-release.outputs.release-html-url }}
     permissions:
       # Allows updating a release
       contents: write
     steps:
       - uses: actions/github-script@v6
         name: Publish GitHub Release
+        id: publish-github-release
         env:
           GH_TOKEN: ${{ secrets.github_token }}
           RELEASE_API_URL: ${{ needs.create-github-release.outputs.release-api-url }}
@@ -135,7 +136,6 @@ jobs:
             const release = releaseRes.data;
             const tagName = release.tag_name;
             core.setOutput("release-html-url", release.html_url);
-            console.log(release.tag_name, release)
 
             if (tagName === autoTag) {
               core.error("Did you forget to update the tag for the release?", { title: "GitHub Release" });
@@ -147,12 +147,14 @@ jobs:
               throw new Error("Tag assigned to release was changed");
             }
 
+            console.log("looking for tag ref:", `tags/${tagName}`);
             const tagRefReq = await github.rest.git.getRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: `tags/${tagName}`
             });
 
+            console.log("tag ref", tagRefReq)
             if (tagRefReq.status !== 200) {
               core.error("Please make sure to push the tag for the release.", { title: "GitHub Release" });
               throw new Error("Tag assigned to release was not found");
