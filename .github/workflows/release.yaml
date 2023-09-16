@@ -53,11 +53,11 @@ jobs:
             function getVersionFromFile(filePath) {
                 const content = fs.readFileSync(filePath, { encoding: "utf-8" });
                 return {
-                    major: parseInt(/^#define [A-Z]+_VERSION_MAJOR (\d+$)/gm.exec(content)[1], 10),
-                    minor: parseInt(/^#define [A-Z]+_VERSION_MINOR (\d+$)/gm.exec(content)[1], 10),
-                    patch: parseInt(/^#define [A-Z]+_VERSION_PATCH (\d+$)/gm.exec(content)[1], 10),
-                    preRelease: /^#define [A-Z]+_VERSION_PRE_RELEASE "([^"]*)"$/gm.exec(content)[1],
-                    buildMetadata: /^#define [A-Z]+_VERSION_BUILD_METADATA "([^"]*)"$/gm.exec(content)[1]
+                    major: parseInt(/^#define [A-Z_]+_VERSION_MAJOR (\d+$)/gm.exec(content)[1], 10),
+                    minor: parseInt(/^#define [A-Z_]+_VERSION_MINOR (\d+$)/gm.exec(content)[1], 10),
+                    patch: parseInt(/^#define [A-Z_]+_VERSION_PATCH (\d+$)/gm.exec(content)[1], 10),
+                    preRelease: /^#define [A-Z_]+_VERSION_PRE_RELEASE "([^"]*)"$/gm.exec(content)[1],
+                    buildMetadata: /^#define [A-Z_]+_VERSION_BUILD_METADATA "([^"]*)"$/gm.exec(content)[1]
                 };
             }
 
