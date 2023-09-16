@@ -120,7 +120,7 @@ jobs:
 #      name: production
 #      url: ${{ steps.check-github-release.outputs.release-html-url }}
     permissions:
-      # Allows retrieving releases
+      # "write" allows retrieving releases while "read" somehow doesn't?
       contents: write
     steps:
       - uses: actions/github-script@v6
