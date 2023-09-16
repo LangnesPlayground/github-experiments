@@ -23,15 +23,15 @@ jobs:
   create-github-release:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: ${{ steps.create-github-release.outputs.release-html-url }}
+#    environment:
+#      name: production
+#      url: ${{ steps.create-github-release.outputs.release-html-url }}
     permissions:
       # Allows creating releases
       contents: write
     outputs:
       release-api-url: ${{ steps.create-github-release.outputs.release-api-url }}
-      auto-tag: ${{ steps.create-github-release.outputs.auto-tag }}
+      tag-name: ${{ steps.create-github-release.outputs.tag-name }}
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -47,14 +47,25 @@ jobs:
             const fs = require("fs");
             const path = require("path");
 
+            function getVersionFromFile(filePath) {
+                const content = fs.readFileSync(filePath, { encoding: "utf-8" });
+                return {
+                    major: parseInt(/^#define WEBVIEW_VERSION_MAJOR (\d+$)/gm.exec(content)[1], 10),
+                    minor: parseInt(/^#define WEBVIEW_VERSION_MINOR (\d+$)/gm.exec(content)[1], 10),
+                    patch: parseInt(/^#define WEBVIEW_VERSION_PATCH (\d+$)/gm.exec(content)[1], 10),
+                    preRelease: /^#define WEBVIEW_VERSION_PRE_RELEASE "([^"]*)"$/gm.exec(content)[1],
+                    buildMetadata: /^#define WEBVIEW_VERSION_BUILD_METADATA "([^"]*)"$/gm.exec(content)[1]
+                };
+            }
+
             const filesToUpload = ["release.tar.gz"];
-            const autoTag = `auto-${context.runId}-${context.runNumber}`;
+            const tagName = getVersionFromFile("version.h");
             const target = context.sha;
 
             const releaseRes = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: autoTag,
+              tag_name: tagName,
               target_commitish: target,
               draft: true
             });
@@ -66,7 +77,7 @@ jobs:
             const release = releaseRes.data;
             core.setOutput("release-api-url", release.url);
             core.setOutput("release-html-url", release.html_url);
-            core.setOutput("auto-tag", autoTag);
+            core.setOutput("tag-name", tagName);
 
             for (const filePath of filesToUpload) {
               const fileName = path.basename(filePath);
@@ -95,9 +106,9 @@ jobs:
   check-github-release:
     needs: create-github-release
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: ${{ steps.check-github-release.outputs.release-html-url }}
+#    environment:
+#      name: production
+#      url: ${{ steps.check-github-release.outputs.release-html-url }}
     permissions:
       # Allows retrieving releases
       contents: read
@@ -108,7 +119,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.github_token }}
           RELEASE_API_URL: ${{ needs.create-github-release.outputs.release-api-url }}
-          AUTO_TAG: ${{ needs.create-github-release.outputs.auto-tag }}
+          TAG_NAME: ${{ needs.create-github-release.outputs.tag-name }}
           TARGET_COMMIT: ${{ github.sha }}
         with:
           script: |
@@ -117,9 +128,9 @@ jobs:
               throw new Error("Release API URL is missing");
             }
 
-            const autoTag = process.env.AUTO_TAG;
-            if (!autoTag) {
-              throw new Error("Auto tag is missing");
+            const tagName = process.env.TAG_NAME;
+            if (!tagName) {
+              throw new Error("Tag name is missing");
             }
             const targetCommit = process.env.TARGET_COMMIT;
             if (!targetCommit) {
@@ -135,11 +146,11 @@ jobs:
             }
 
             const release = releaseRes.data;
-            const tagName = release.tag_name;
+            const currentTagName = release.tag_name;
             core.setOutput("release-html-url", release.html_url);
 
-            if (tagName === autoTag) {
-              core.error("It appears that the release still has the generated tag assigned to it. Did you forget to change the tag?", { title: "GitHub Release" });
+            if (currentTagName !== tagName) {
+              core.error("Refrain from changing the tag of the release.", { title: "GitHub Release" });
               process.exit(1);
             }
 
@@ -149,7 +160,7 @@ jobs:
             }
 
             if (release.draft !== true) {
-              core.error("The release was supposed to be a draft but isn't anymore.", { title: "GitHub Release" });
+              core.error("The release draft was supposed to be edited, not published.", { title: "GitHub Release" });
               process.exit(1);
             }
 
