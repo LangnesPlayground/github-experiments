@@ -13,6 +13,8 @@ jobs:
           echo Hello > hello.txt
           echo World > world.txt
           tar czvf release.tar.gz hello.txt world.txt
+          pwd
+          exit 1
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
