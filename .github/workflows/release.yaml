@@ -54,18 +54,13 @@ jobs:
                     major: parseInt(/^#define [A-Z_]+_VERSION_MAJOR (\d+$)/gm.exec(content)[1], 10),
                     minor: parseInt(/^#define [A-Z_]+_VERSION_MINOR (\d+$)/gm.exec(content)[1], 10),
                     patch: parseInt(/^#define [A-Z_]+_VERSION_PATCH (\d+$)/gm.exec(content)[1], 10),
-                    preRelease: /^#define [A-Z_]+_VERSION_PRE_RELEASE "([^"]*)"$/gm.exec(content)[1],
-                    buildMetadata: /^#define [A-Z_]+_VERSION_BUILD_METADATA "([^"]*)"$/gm.exec(content)[1]
+                    preRelease: /^#define [A-Z_]+_VERSION_PRE_RELEASE "([^"]*)"$/gm.exec(content)[1]
                 };
             }
 
             const filesToUpload = ["release.tar.gz"];
             const version = getVersionFromFile("version.h");
-            const tagName = [
-              [version.major, version.minor, version.patch].join("."),
-              version.preRelease,
-              version.buildMetadata
-            ].join("");
+            const tagName = [version.major, version.minor, version.patch].join(".") + version.preRelease;
             const target = context.sha;
 
             const releaseRes = await (async () => {

@@ -15,10 +15,10 @@
 
 #ifndef WEBVIEW_VERSION_PRE_RELEASE
 // SemVer 2.0.0 pre-release labels prefixed with "-".
-#define WEBVIEW_VERSION_PRE_RELEASE ""
+#define WEBVIEW_VERSION_PRE_RELEASE "-alpha.1"
 #endif
 
 #ifndef WEBVIEW_VERSION_BUILD_METADATA
 // SemVer 2.0.0 build metadata prefixed with "+".
-#define WEBVIEW_VERSION_BUILD_METADATA ""
+#define WEBVIEW_VERSION_BUILD_METADATA "+hello.world"
 #endif
