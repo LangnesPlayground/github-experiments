@@ -117,7 +117,7 @@ jobs:
 #      url: ${{ steps.check-github-release.outputs.release-html-url }}
     permissions:
       # Allows retrieving releases
-      contents: read
+      contents: write
     steps:
       - uses: actions/github-script@v6
         name: Check GitHub Release
