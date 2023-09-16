@@ -33,6 +33,7 @@ jobs:
       release-api-url: ${{ steps.create-github-release.outputs.release-api-url }}
       tag-name: ${{ steps.create-github-release.outputs.tag-name }}
     steps:
+      - uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -46,9 +47,6 @@ jobs:
           script: |
             const fs = require("fs");
             const path = require("path");
-
-            console.log(process.cwd())
-            process.exit(1)
 
             function getVersionFromFile(filePath) {
                 const content = fs.readFileSync(filePath, { encoding: "utf-8" });
