@@ -104,7 +104,7 @@ jobs:
                     data: fileStream
                   });
                 } catch (e) {
-                  throw new Error("Failed to upload release asset");
+                  throw new Error("Failed to upload release asset", e);
                 }
               })();
 
@@ -153,7 +153,7 @@ jobs:
                   url: releaseApiUrl
                 });
               } catch (e) {
-                throw new Error("Failed to get release");
+                throw new Error("Failed to get release", e);
               }
             })();
 
@@ -183,7 +183,7 @@ jobs:
                   repo: context.repo.repo,
                   ref: `tags/${tagName}`
                 });
-              } catch (e) {
+              } catch {
                 core.error("Make sure to push the tag for the release.", { title: "GitHub Release" });
                 process.exit(1);
               }
@@ -198,7 +198,7 @@ jobs:
                   url: tagUrl
                 });
               } catch (e) {
-                throw new Error("Failed to retrieve the tag");
+                throw new Error("Failed to retrieve the tag", e);
               }
             })();
 
@@ -246,7 +246,7 @@ jobs:
                   draft: false
                 });
               } catch (e) {
-                throw new Error("Failed to update release");
+                throw new Error("Failed to update release", e);
               }
             })();
 
