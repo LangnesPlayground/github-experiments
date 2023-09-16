@@ -120,7 +120,8 @@ jobs:
 #      name: production
 #      url: ${{ steps.check-github-release.outputs.release-html-url }}
     permissions:
-      # "write" allows retrieving releases while "read" somehow doesn't?
+      # "write" allows retrieving releases while "read" somehow doesn't despite
+      # "GET /repos/{owner}/{repo}/releases/{release_id}" allegedly only needing "read".
       contents: write
     steps:
       - uses: actions/github-script@v6
