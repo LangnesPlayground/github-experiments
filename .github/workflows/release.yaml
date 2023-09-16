@@ -93,7 +93,7 @@ jobs:
               const fileStream = fs.createReadStream(filePath);
               const assetRes = await (async () => {
                 try {
-                  await github.request({
+                  return await github.request({
                     method: "POST",
                     url: release.upload_url,
                     headers: {
