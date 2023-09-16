@@ -23,9 +23,9 @@ jobs:
   create-github-release:
     needs: build
     runs-on: ubuntu-latest
-#    environment:
-#      name: production
-#      url: ${{ steps.create-github-release.outputs.release-html-url }}
+    environment:
+      name: production
+      url: ${{ steps.create-github-release.outputs.release-html-url }}
     permissions:
       # Allows creating releases
       contents: write
@@ -116,9 +116,9 @@ jobs:
   check-github-release:
     needs: create-github-release
     runs-on: ubuntu-latest
-#    environment:
-#      name: production
-#      url: ${{ steps.check-github-release.outputs.release-html-url }}
+    environment:
+      name: production
+      url: ${{ steps.check-github-release.outputs.release-html-url }}
     permissions:
       # "write" allows retrieving releases while "read" somehow doesn't despite
       # "GET /repos/{owner}/{repo}/releases/{release_id}" allegedly only needing "read".
