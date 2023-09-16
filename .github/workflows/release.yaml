@@ -68,9 +68,9 @@ jobs:
             ].join("");
             const target = context.sha;
 
-            const releaseRes = await (async() => {
+            const releaseRes = await (async () => {
               try {
-                await github.rest.repos.createRelease({
+                return await github.rest.repos.createRelease({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   tag_name: tagName,
