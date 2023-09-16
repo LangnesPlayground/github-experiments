@@ -13,8 +13,6 @@ jobs:
           echo Hello > hello.txt
           echo World > world.txt
           tar czvf release.tar.gz hello.txt world.txt
-          pwd
-          exit 1
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -48,6 +46,8 @@ jobs:
           script: |
             const fs = require("fs");
             const path = require("path");
+
+            console.log(process.cwd())
 
             function getVersionFromFile(filePath) {
                 const content = fs.readFileSync(filePath, { encoding: "utf-8" });
