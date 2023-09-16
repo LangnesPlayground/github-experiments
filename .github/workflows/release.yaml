@@ -60,7 +60,12 @@ jobs:
             }
 
             const filesToUpload = ["release.tar.gz"];
-            const tagName = getVersionFromFile("version.h");
+            const version = getVersionFromFile("version.h");
+            const tagName = [
+              [version.major, version.minor, version.patch].join("."),
+              version.preRelease,
+              version.buildMetadata
+            ].join("");
             const target = context.sha;
 
             const releaseRes = await github.rest.repos.createRelease({
